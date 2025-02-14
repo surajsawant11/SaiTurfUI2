@@ -1,0 +1,97 @@
+/* About Section */
+.about-section {
+    background-color: #ffffff; /* White background */
+    padding: 50px 0; /* Adjust the padding for content spacing */
+    margin-top: 3 0px; /* Space to account for the navbar height (adjust this based on navbar height) */
+    /* border-top: 3px solid #3498db; Light blue border at the top to break the space */
+  }
+  
+  h2 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: #3498db; /* Light blue for the main heading */
+  }
+  
+  h3 {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #333; /* Darker color for subheadings */
+  }
+  
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #555; /* Slightly darker text color for readability */
+    margin-bottom: 20px;
+  }
+  
+  .lead {
+    font-size: 1.1rem;
+    color: #6c757d; /* Slightly grayish text */
+  }
+  
+  
+  
+  .lead {
+    font-size: 1.1rem;
+    color: #6c757d; /* Slightly grayish text */
+  }
+  
+  /* Team Section */
+  .team-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff; /* White background for the card */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-10px); /* Slight lift effect */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Deepened shadow on hover */
+  }
+  
+  .team-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .team-info {
+    font-size: 1.2rem;
+    color: #333; /* Text color for the name */
+  }
+  
+  .team-info h5 {
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  .team-info p {
+    font-weight: 400;
+    color: #7f8c8d; /* Light gray text for role */
+  }
+  
+  /* Footer Styles */
+  app-footer {
+    background-color: #f8f9fa; /* Lighter background for footer */
+    color: #333;
+    padding: 30px 0;
+    border-top: 1px solid #ddd; /* Subtle divider at the top of the footer */
+  }
+  
+  app-footer a {
+    color: #3498db; /* Soft blue for footer links */
+    text-decoration: none;
+  }
+  
+  app-footer a:hover {
+    color: #007bff; /* Darker blue on hover */
+    text-decoration: underline;
+  }
+  
