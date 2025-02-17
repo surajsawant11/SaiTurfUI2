@@ -19,9 +19,8 @@ export class LoginComponent {
 
   submitForm(form: any) {
     // debugger
-    console.log(form.value); // Log form data on submit
     if (form.valid) {
-      this.authService.isLogin(this.username, this.password).subscribe((isAuthenticated: boolean) => {
+      this.authService.login(this.username, this.password).subscribe((isAuthenticated: boolean) => {
         if (isAuthenticated) {
           // Redirect to the Home component after successful login
           this.router.navigate(['home']);
