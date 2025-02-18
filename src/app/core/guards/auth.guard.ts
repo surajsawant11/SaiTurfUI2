@@ -1,26 +1,40 @@
 import { CanActivateFn } from '@angular/router';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service'; // Adjust the path as necessary
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const isAuthenticated = authService.isAuthenticated(); // Implement this method in AuthService
+  const isAuthenticated = authService.isAuthenticated();
 
   if (!isAuthenticated) {
     router.navigate(['/login']);
     return false;
   }
 
-  const isAdmin = authService.getUserFromStorage()?.role === 'admin'; // Check if the user is an admin
+  return true;
+};
 
-  if (!isAdmin) {
-    // Optionally, redirect to an unauthorized page
-    router.navigate(['/unauthorized']);
+
+export const adminGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  const isAuthenticated = authService.isAuthenticated(); // Check if the user is authenticated
+
+  if (!isAuthenticated) {
+    router.navigate(['/login']); // Redirect to login if not authenticated
     return false;
   }
 
-  return true;
+  const isAdmin = authService.getUserFromStorage()?.role === 'admin'; // Check if the user is an admin
+
+  if (!isAdmin) {
+    router.navigate(['/unauthorized']); // Redirect to unauthorized if not an admin
+    return false;
+  }
+
+  return true; // The user is authenticated and an admin
 };

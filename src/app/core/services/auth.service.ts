@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { loginSuccess, loginFailure } from '../../core/store/auth.actions'; // Import your actions
+import { loginSuccess, loginFailure } from '../../core/store/auth.actions';
 import { User } from '../store/auth.interface';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient, private store: Store) { }
 
@@ -23,57 +24,55 @@ export class AuthService {
     return this.http
       .post(`${this.apiUrl}/login`, body, {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,  // This ensures cookies are included if needed
+        withCredentials: true,
       })
       .pipe(
-        // On success, save the token, call user context, and dispatch success action
         switchMap((loginResponse: any) => {
           if (loginResponse.token) {
-            this.setUserContextToken(loginResponse.token); // Save token to storage
-            this.setLoginTimestamp(); // Set the login timestamp
+            this.setUserContextToken(loginResponse.token);
+            this.setLoginTimestamp();
             return this.getUserContext().pipe(
               tap((userContext) => {
-                this.setUserToStorage(userContext); // Save user context to local storage
-                this.store.dispatch(loginSuccess({ user: userContext })); // Dispatch login success action
+                this.setUserToStorage(userContext);
+                this.store.dispatch(loginSuccess({ user: userContext }));
               })
             );
           } else {
             this.store.dispatch(loginFailure({ error: 'No token returned' }));
-            return of(null); // If no token is received, return an observable with null
+            return of(null);
           }
         }),
         catchError((error) => {
           console.error('Login failed', error);
           this.store.dispatch(loginFailure({ error }));
-          return of(null); // Return null if login fails
+          return of(null);
         })
       );
   }
 
-  // Save the token to localStorage
   setUserContextToken(token: string): void {
     localStorage.setItem('userToken', token);
   }
 
-  // Set the login timestamp
   setLoginTimestamp(): void {
     const timestamp = new Date().getTime();
     localStorage.setItem('loginTimestamp', timestamp.toString());
   }
 
-  // Check if the user is authenticated based on the timestamp
   isAuthenticated(): boolean {
     const timestamp = localStorage.getItem('loginTimestamp');
     if (timestamp) {
       const loginTime = parseInt(timestamp, 10);
       const currentTime = new Date().getTime();
-      const hoursSinceLogin = (currentTime - loginTime) / (1000 * 60 * 60); // Convert milliseconds to hours
-      return hoursSinceLogin < 24; // Check if less than 24 hours have passed
+      const hoursSinceLogin = (currentTime - loginTime) / (1000 * 60 * 60);
+      if (hoursSinceLogin < 24) {
+        return true;
+      }
     }
-    return false; // No timestamp means not authenticated
+    this.clearLocalStorage();
+    return false;
   }
 
-  // Call the userContext API with the token
   getUserContext(): Observable<User | any> {
     const token = localStorage.getItem('userToken');
     if (token) {
@@ -81,7 +80,7 @@ export class AuthService {
         headers: { 'Authorization': `Bearer ${token}` },
       });
     } else {
-      return of(null); // If no token, return null
+      return of(null);
     }
   }
 
@@ -92,5 +91,9 @@ export class AuthService {
   public getUserFromStorage(): User | null {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
+  }
+
+  clearLocalStorage(): void {
+    localStorage.clear();
   }
 }

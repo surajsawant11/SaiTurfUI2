@@ -11,7 +11,7 @@ export const HOME_ROUTES: Routes = [
         component: HomeComponent,
         providers: [
             provideState('home', homeReducer),
-            provideEffects(HomeEffects)
+            provideEffects([HomeEffects]),
         ],
     },
 ];

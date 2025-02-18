@@ -1,26 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { catchError, map, switchMap, tap, mergeMap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { loadHome, loadHomeSuccess, loadHomeFailure } from './home.actions';
-import { of } from 'rxjs';
+import { map, exhaustMap, catchError } from 'rxjs/operators';
+import { HomeService } from '../service/home.service';
+import * as HomeActions from './home.actions';
 
 @Injectable()
 export class HomeEffects {
-  constructor(private actions$: Actions, private http: HttpClient, private store: Store) {}
+  private actions$ = inject(Actions);
+  private homeService = inject(HomeService);
 
-  // loadHome$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(loadHome),
-  //     switchMap(() => {
-  //       return of({ title: 'Dummy Home Data', content: 'This is dummy content for home.' }).pipe( // Dummy data
-  //         map((data) => loadHomeSuccess({ data })),
-  //         catchError((error) => {
-  //           return of(loadHomeFailure({ error }));
-  //         })
-  //       );
-  //     })
-  //   );
-  // });
+  loadHome$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(HomeActions.loadHome),
+      exhaustMap(() =>
+        this.homeService.getPosts().pipe(
+          map((data) => HomeActions.loadHomeSuccess({ data })),
+          catchError((error) => {
+            return [HomeActions.loadHomeFailure({ error: error.message || 'Unknown error' })];
+          })
+        )
+      )
+    );
+  });
 }
