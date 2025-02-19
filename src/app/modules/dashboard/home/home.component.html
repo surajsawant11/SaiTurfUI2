@@ -42,7 +42,8 @@
     <!-- Loop through testimonials to display each testimonial card -->
     <div class="col-md-4 col-sm-6 mb-4" *ngFor="let testimonial of testimonials">
       <div class="testimonial-card text-center">
-        <img [src]="testimonial.image" class="rounded-circle mb-3" [alt]="testimonial.name" style="width: 80px; height: 80px;">
+        <img [src]="testimonial.image" class="rounded-circle mb-3" [alt]="testimonial.name"
+          style="width: 80px; height: 80px;">
         <p>"{{ testimonial.feedback }}"</p>
         <p>- {{ testimonial.name }}</p>
       </div>

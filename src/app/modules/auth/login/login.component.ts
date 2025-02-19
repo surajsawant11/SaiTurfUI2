@@ -1,35 +1,24 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../core/services/auth.service';
-import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { login } from '../../../core/store/auth.actions';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
 
-  
-  constructor(private authService:AuthService, private router: Router ){}
+  constructor(private store: Store) { }
   username: string = 'admin';
-  password: string = '123';
+  password: string = 'admin';
 
   submitForm(form: any) {
-    // debugger
-    console.log(form.value); // Log form data on submit
     if (form.valid) {
-      this.authService.isLogin(this.username, this.password).subscribe((isAuthenticated: boolean) => {
-        if (isAuthenticated) {
-          // Redirect to the Home component after successful login
-          this.router.navigate(['home']);
-        } else {
-          alert("Wrong Username and Passsword") // Handle failed login logic if needed
-        }
-      });
-      
+      this.store.dispatch(login({ username: this.username, password: this.password }));
     }
   }
 
