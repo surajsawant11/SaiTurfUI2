@@ -1,57 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-import { loginSuccess, loginFailure } from '../../core/store/auth.actions';
+import { Observable } from 'rxjs';
 import { User } from '../store/auth.interface';
 import { environment } from '../../../environment/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
+
 export class AuthService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private store: Store) { }
+  constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {
-    const body = {
-      username,
-      password,
-    };
-
-    return this.http
-      .post(`${this.apiUrl}/login`, body, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      })
-      .pipe(
-        switchMap((loginResponse: any) => {
-          if (loginResponse.token) {
-            this.setUserContextToken(loginResponse.token);
-            this.setLoginTimestamp();
-            return this.getUserContext().pipe(
-              tap((userContext) => {
-                this.setUserToStorage(userContext);
-                this.store.dispatch(loginSuccess({ user: userContext }));
-              })
-            );
-          } else {
-            this.store.dispatch(loginFailure({ error: 'No token returned' }));
-            return of(null);
-          }
-        }),
-        catchError((error) => {
-          console.error('Login failed', error);
-          this.store.dispatch(loginFailure({ error }));
-          return of(null);
-        })
-      );
+    const body = { username, password };
+    return this.http.post(`${this.apiUrl}/login`, body, { headers: { 'Content-Type': 'application/json' }, withCredentials: true, })
   }
 
   setUserContextToken(token: string): void {
-    localStorage.setItem('userToken', token);
+    localStorage.setItem('token', token);
   }
 
   setLoginTimestamp(): void {
@@ -73,18 +39,7 @@ export class AuthService {
     return false;
   }
 
-  getUserContext(): Observable<User | any> {
-    const token = localStorage.getItem('userToken');
-    if (token) {
-      return this.http.get<User>(`${this.apiUrl}/userContext`, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-    } else {
-      return of(null);
-    }
-  }
-
-  private setUserToStorage(user: User): void {
+  public setUserToStorage(user: User): void {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
@@ -93,7 +48,16 @@ export class AuthService {
     return userJson ? JSON.parse(userJson) : null;
   }
 
+  public getAuthToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
   clearLocalStorage(): void {
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('loginTimestamp');
+    localStorage.removeItem('user');
+  }
+  logOut(): void {
+    this.clearLocalStorage();
   }
 }
