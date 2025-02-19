@@ -1,28 +1,42 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
+import { Router } from '@angular/router';
+import { exhaustMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private actions$: Actions,
-    private authService: AuthService, 
-    private store: Store
-  ) {}
+  private actions$ = inject(Actions);
+  private _authService = inject(AuthService);
+  private router = inject(Router);
 
-  // login$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AuthActions.login),
-  //     mergeMap(action =>
-  //       this.authService.login(action.username, action.password).pipe(
-  //         map(user => AuthActions.loginSuccess({ user })),
-  //         catchError(error => of(AuthActions.loginFailure({ error: error.message })))
-  //       )
-  //     )
-  //   )
-  // );
+  constructor() { }
+
+  login$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      exhaustMap(({ username, password }) =>
+        this._authService.login(username, password).pipe(
+          map(user => {
+            // Store user data in the context and local storage
+            this._authService.setUserContextToken(user.token);
+            this._authService.setLoginTimestamp();
+            this._authService.setUserToStorage(user);
+
+            // Navigate to home path
+            this.router.navigate(['/home']);
+
+            // Dispatch login success action
+            return AuthActions.loginSuccess({ user });
+          }),
+          catchError((error) => {
+            // Dispatch login failure action
+            return of(AuthActions.loginFailure({ error: error.message || 'Unknown error' }));
+          })
+        )
+      )
+    )
+  );
 }

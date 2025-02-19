@@ -27,7 +27,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngOnInit() {
-    console.log('Dispatching loadPosts action');
     this.store.dispatch(loadHome());
   }
   ngAfterViewInit() {
