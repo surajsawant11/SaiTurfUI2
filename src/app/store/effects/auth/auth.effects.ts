@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import * as AuthActions from './auth.actions';
+import * as AuthActions from '../../actions/auth/auth.actions';
 import { Router } from '@angular/router';
 import { exhaustMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Injectable()
 export class AuthEffects {
@@ -26,7 +26,7 @@ export class AuthEffects {
             this._authService.setUserToStorage(user);
 
             // Navigate to home path
-            this.router.navigate(['/home']);
+            this.router.navigate(['/']);
 
             // Dispatch login success action
             return AuthActions.loginSuccess({ user });

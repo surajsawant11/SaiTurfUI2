@@ -7,7 +7,7 @@ import { HomeEffects } from './store/home.effects';
 
 export const HOME_ROUTES: Routes = [
     {
-        path: 'home',
+        path: '',
         component: HomeComponent,
         providers: [
             provideState('home', homeReducer),

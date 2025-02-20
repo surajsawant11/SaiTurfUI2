@@ -1,13 +1,13 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, ErrorHandler, provideZoneChangeDetection } from '@angular/core';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { routes } from './app.routes';
-import { AppErrorHandler } from './core/guards/auth.error.interceptor';
-import { authInterceptor } from './core/guards/auth.interceptor';
-import { AuthEffects } from './core/store/auth.effects';
-import { authReducer } from './core/store/auth.reducer';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { tokenInterceptor } from './core/interceptors/token.interceptor';
+import { authReducer } from './store/reducers/auth/auth.reducer';
+import { AuthEffects } from './store/effects/auth/auth.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -15,8 +15,12 @@ export const appConfig: ApplicationConfig = {
     provideStore({ auth: authReducer }),
     provideEffects([AuthEffects]),
     provideHttpClient(
-      withInterceptors([authInterceptor]),
+      withInterceptors([tokenInterceptor]),
     ),
-    { provide: ErrorHandler, useClass: AppErrorHandler }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }
   ],
 };
