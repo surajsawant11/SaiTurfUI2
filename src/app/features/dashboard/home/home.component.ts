@@ -4,8 +4,8 @@ import 'swiper/css'; // Import default Swiper styles
 import 'swiper/css/navigation'; // Import navigation styles
 import 'swiper/css/pagination'; // Import pagination styles
 import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../../common/navbar/navbar.component';
-import { FooterComponent } from '../../common/footer/footer.component';
+import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectHomeData } from './store/home.selectors';
