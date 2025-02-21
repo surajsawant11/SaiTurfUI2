@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../store/auth.interface';
 import { environment } from '../../../environment/environment';
+import { User } from '../../store/interface/auth/auth.interface';
 
 @Injectable({ providedIn: 'root' })
 

@@ -1,0 +1,199 @@
+/* Body and Global Styles */
+body {
+  background-color: #f8f9fa;
+  /* Light background */
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  /* Dark text for readability */
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease;
+}
+
+
+/* Swiper Styles */
+.swiper-container {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+
+.swiper-slide img {
+  border-radius: 8px;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+}
+
+.swiper-slide:hover img {
+  transform: scale(1.05);
+  /* Slight zoom effect on hover */
+  opacity: 0.9;
+  /* Slight opacity change on hover */
+}
+
+/* Style for Turf Cards */
+.turf-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.turf-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  /* Lift effect */
+}
+
+.turf-card img {
+  width: 100%;
+  height: 200px;
+  /* Ensure image has consistent height */
+  object-fit: cover;
+  /* Ensure image fills the space without distortion */
+  transition: transform 0.5s ease;
+}
+
+.turf-card .card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.turf-card .btn-custom {
+  background-color: #4CAF50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.turf-card .btn-primary {
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.turf-card .btn-primary:hover,
+.turf-card .btn-custom:hover {
+  background-color: #0056b3;
+  color: white;
+  transform: scale(1.05);
+  /* Slight button zoom effect */
+}
+
+.turf-card .btn-primary:active,
+.turf-card .btn-custom:active {
+  transform: scale(0.98);
+  /* Slight button shrink on active */
+}
+
+/* Ensure testimonial cards have the same size */
+.testimonial-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  /* Lift effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial-card img {
+  border-radius: 50%;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card img:hover {
+  transform: scale(1.1);
+  /* Slight zoom effect on hover */
+}
+
+.testimonial-card p {
+  font-size: 16px;
+  font-style: italic;
+  margin-top: 10px;
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+/* Swiper styles */
+.swiper-container {
+  width: 100%;
+  height: 400px;
+}
+
+.swiper-slide img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Footer Styles */
+app-footer {
+  background-color: #343a40;
+  /* Dark footer */
+  color: #f8f9fa;
+  /* Light text */
+  padding: 30px 0;
+  transition: background-color 0.3s ease;
+}
+
+app-footer a {
+  color: #f8f9fa;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+app-footer a:hover {
+  color: #007bff;
+  /* Blue on hover */
+  text-decoration: underline;
+}
+
+app-footer .social-icons a {
+  color: #f8f9fa;
+  margin: 0 10px;
+  font-size: 1.2rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+app-footer .social-icons a:hover {
+  color: #007bff;
+  transform: scale(1.2);
+  /* Slight zoom effect on hover */
+}
+
+.app-footer .social-icons a:active {
+  transform: scale(0.9);
+  /* Slight shrink effect when clicked */
+}
+
+/* Transitions for General Interaction */
+a,
+button {
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+
+a:hover,
+button:hover {
+  transform: translateY(-2px);
+  /* Lift effect */
+}
+
+a:active,
+button:active {
+  transform: translateY(2px);
+  /* Slight press effect */
+}
