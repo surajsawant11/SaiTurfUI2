@@ -43,7 +43,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 
                     case HttpStatusCode.Forbidden: // 403
                         errorMessage = 'You do not have permission to access this resource.';
-                        this.router.navigate(['/forbidden']);
                         break;
 
                     case HttpStatusCode.NotFound: // 404
@@ -87,10 +86,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     private handleUnauthorized(): void {
         // Clear any stored tokens
         localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
 
         // Redirect to login
-        this.router.navigate(['/auth/login'], {
+        this.router.navigate(['/login'], {
             queryParams: { returnUrl: this.router.routerState.snapshot.url }
         });
     }

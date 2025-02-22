@@ -22,7 +22,6 @@ export const routes: Routes = [
     {
         path: '',
         component: AuthLayoutComponent,
-        canActivate: [noAuthGuard],
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
