@@ -1,21 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import Swiper from 'swiper'; // Import Swiper
 import 'swiper/css'; // Import default Swiper styles
 import 'swiper/css/navigation'; // Import navigation styles
 import 'swiper/css/pagination'; // Import pagination styles
-import { CommonModule } from '@angular/common';
-import { NavbarComponent } from '../../../shared/components/navbar/navbar.component';
-import { FooterComponent } from '../../../shared/components/footer/footer.component';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { selectHomeData } from './store/home.selectors';
 import { loadHome } from './store/home.actions';
+import { selectHomeData } from './store/home.selectors';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, NavbarComponent,
-    FooterComponent,], // Import only the necessary Angular modules
+  imports: [CommonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })

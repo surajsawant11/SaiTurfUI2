@@ -39,4 +39,19 @@ export class AuthEffects {
       )
     )
   );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logout),
+      exhaustMap(() => {
+        this._authService.logOut();
+        this.router.navigate(['/login']);
+        return of(AuthActions.logoutSuccess());
+      }),
+      catchError((error) => {
+        // Dispatch logout failure action
+        return of(AuthActions.logoutFailure({ error: error.message || 'Unknown error' }));
+      })
+    )
+  );
 }
