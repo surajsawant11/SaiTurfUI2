@@ -41,7 +41,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  const isAdmin = authService.getUserFromStorage()?.role === 'admin'; // Check if the user is an admin
+  const isAdmin = authService.getUserFromStorage()?.role === 'ADMIN'; // Check if the user is an admin
 
   if (!isAdmin) {
     router.navigate(['/unauthorized']); // Redirect to unauthorized if not an admin

@@ -1,49 +1,72 @@
-<div class="container my-4">
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <!-- Swiper slides looped dynamically from data -->
-      <div class="swiper-slide" *ngFor="let slide of slides">
-        <img [src]="slide.image" class="d-block w-100" [alt]="slide.alt">
+<div class="bg-white">
+  <!-- Hero Section -->
+  <div class="relative isolate px-4 pt-10 lg:px-6">
+    <div class="container mx-auto py-10 sm:py-10 lg:py-10 mt-16">
+      <div class="text-center mb-2">
+        <div class="inline-block relative">
+          <!-- Animated Text -->
+          <h1 class="text-4xl md:text-5xl font-bold text-gray-900 tracking-tight bg-clip-text animate-text-gradient">
+            Explore Our Premium Turfs
+          </h1>
+        </div>
+        <p class="mt-6 text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Discover expertly engineered surfaces that enhance performance across all sports disciplines. Whether you're a
+          professional athlete or a weekend warrior, our turfs are designed to elevate your game.
+        </p>
       </div>
     </div>
-    <div class="swiper-pagination"></div>
-    <!-- <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div> -->
-  </div>
-</div>
 
-<!-- Available Turfs -->
-<div class="container my-5">
-  <h2 class="text-center mb-4">Available Turfs</h2>
-  <div class="row">
-    <!-- Loop through turfs to generate the cards dynamically -->
-    <div class="col-md-4 col-sm-6 mb-4" *ngFor="let turf of turfs">
-      <div class="turf-card">
-        <img [src]="turf.image" class="card-img-top" [alt]="turf.name">
-        <div class="card-body">
-          <h5 class="card-title">{{ turf.name }}</h5>
-          <p class="card-text">{{ turf.description }}</p>
-          <p class="card-text"><strong>Price:</strong> {{ turf.price }}</p>
-          <button class="btn btn-custom">View Details</button>
-          <button class="btn btn-primary mt-2">Book Now</button> <!-- Added Book Now Button -->
+    <!-- Background Blur Effect -->
+    <div
+      class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+      aria-hidden="true">
+      <div
+        class="relative left-[calc(50%+3rem)] aspect-1155/678 w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-green-400 to-green-600 opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+        style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Turf Grid Section -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-2 py-12"> 
+    <div class="text-center mb-12">
+      <!-- Added Underline Section -->
+      <div class="w-35 mx-auto border-t-4 border-gray-400 mb-4"></div>
+      <h2 class="text-3xl font-bold text-gray-900">Our Turf Collection</h2>
+      <p class="text-lg text-gray-600 mt-4">Explore our wide range of premium turfs designed for every sport.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (turf of turfs; track turf.id) {
+      <div
+        class="relative flex flex-col bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+        <div class="relative h-48">
+          <img [src]="turf.image" class="w-full h-full object-cover" [alt]="turf.name" />
+          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+            <h5 class="text-xl font-semibold text-white">{{ turf.name }}</h5>
+          </div>
+        </div>
+        <div class="px-6 py-4">
+          <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ turf.description }}</p>
+          <p class="text-lg text-gray-800 font-semibold">
+            <strong class="text-gray-700">Price:</strong> <span class="text-gray-600">{{ turf.price }}</span>
+          </p>
+        </div>
+        <div class="px-6 pb-6 flex justify-between items-center">
+          <button
+            class="text-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition duration-300 ease-in-out shadow-md transform hover:scale-105 hover:bg-gray-100">
+            View Details
+          </button>
+          <button
+            class="text-green-600 rounded-lg px-4 py-2 text-sm font-medium transition duration-300 ease-in-out shadow-md transform hover:scale-105 hover:bg-green-100">
+            Book Now
+          </button>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- Testimonials Section -->
-<div class="container my-5">
-  <h2 class="text-center mb-4">What Our Users Say</h2>
-  <div class="row">
-    <!-- Loop through testimonials to display each testimonial card -->
-    <div class="col-md-4 col-sm-6 mb-4" *ngFor="let testimonial of testimonials">
-      <div class="testimonial-card text-center">
-        <img [src]="testimonial.image" class="rounded-circle mb-3" [alt]="testimonial.name"
-          style="width: 80px; height: 80px;">
-        <p>"{{ testimonial.feedback }}"</p>
-        <p>- {{ testimonial.name }}</p>
+      }@empty {
+      <div class="col-span-full text-center text-lg text-gray-600 py-12">
+        No turfs available at the moment. Please check back later!
       </div>
+      }
     </div>
   </div>
 </div>
