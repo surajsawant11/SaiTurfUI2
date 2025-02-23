@@ -1,61 +1,37 @@
-<h2 mat-dialog-title class="text-2xl font-semibold text-gray-900 text-center pb-4">
-    Add New Turf
-</h2>
+<h2 mat-dialog-title>{{ data ? 'Edit Turf' : 'Add New Turf' }}</h2>
+<div mat-dialog-content>
+  <form [formGroup]="turfForm">
+    <mat-form-field class="full-width">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
 
-<div mat-dialog-content class="px-6 pb-4 space-y-4">
-    <form [formGroup]="turfForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Turf Name -->
-        <mat-form-field appearance="outline" class="w-full">
-            <input matInput formControlName="name" placeholder="Enter Turf Name">
-            <mat-error *ngIf="turfForm.get('name')?.invalid && turfForm.get('name')?.touched">
-                Name is required
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location">
+    </mat-form-field>
 
-        <!-- Location -->
-        <mat-form-field appearance="outline" class="w-full">
-            <input matInput formControlName="location" placeholder="Enter Location">
-            <mat-error *ngIf="turfForm.get('location')?.invalid && turfForm.get('location')?.touched">
-                Location is required
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Price Per Hour</mat-label>
+      <input matInput type="number" formControlName="pricePerHour">
+    </mat-form-field>
 
-        <!-- Price Per Hour -->
-        <mat-form-field appearance="outline" class="w-full">
-            <input matInput type="number" formControlName="pricePerHour" placeholder="Enter Price Per Hour (₹)">
-            <mat-error *ngIf="turfForm.get('pricePerHour')?.invalid && turfForm.get('pricePerHour')?.touched">
-                Must be at least ₹100
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Capacity</mat-label>
+      <input matInput type="number" formControlName="capacity">
+    </mat-form-field>
 
-        <!-- Capacity -->
-        <mat-form-field appearance="outline" class="w-full">
-            <input matInput type="number" formControlName="capacity" placeholder="Enter Capacity">
-            <mat-error *ngIf="turfForm.get('capacity')?.invalid && turfForm.get('capacity')?.touched">
-                Must be at least 1
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Image Upload -->
-        <div class="md:col-span-2 flex flex-col items-center">
-            <input type="file" (change)="onFileSelected($event)" accept="image/*" class="hidden" id="fileInput">
-            <label for="fileInput" class="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-600">
-                Choose Image
-            </label>
-            <div *ngIf="imagePreview" class="mt-4">
-                <img [src]="imagePreview" alt="Turf Image" class="w-48 h-48 rounded-lg border border-gray-300 object-cover shadow-md">
-            </div>
-        </div>
-    </form>
+    <!-- Image Preview -->
+    <div class="image-preview-container">
+      <input type="file" (change)="onFileSelected($event)">
+      <div *ngIf="imagePreview()">
+        <img [src]="imagePreview()" alt="Turf Image" class="w-48 h-48 rounded-lg border border-gray-300 object-cover shadow-md">
+      </div>
+    </div>
+  </form>
 </div>
 
-<!-- Dialog Actions -->
-<div mat-dialog-actions class="flex justify-end space-x-4 px-6 pb-4">
-    <button mat-button (click)="onCancel()" class="text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-md">
-        Cancel
-    </button>
-    <button mat-flat-button color="primary" (click)="onSave()" [disabled]="turfForm.invalid"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">
-        Save
-    </button>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()" [disabled]="turfForm.invalid">Save</button>
 </div>

@@ -10,13 +10,13 @@ export class TurfEffects {
   private actions$ = inject(Actions);
   private _turfService = inject(TurfService);
 
-  // Load Turf List
-  loadHome$ = createEffect(() => {
+  // ✅ Load Turf List (Fixed typo)
+  loadTurfs$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TurfActions.loadTurf),
       exhaustMap(() =>
         this._turfService.loadTurfs().pipe(
-          map((turf) => TurfActions.loadTurfSuccess({ turf })),
+          map((turfs) => TurfActions.loadTurfSuccess({ turfs })), // ✅ Fixed 'turfs'
           catchError((error) =>
             of(TurfActions.loadTurfFailure({ error: error.message || 'Unknown error' }))
           )
@@ -25,7 +25,7 @@ export class TurfEffects {
     );
   });
 
-  // Save Turf (Handles Image Upload)
+  // ✅ Save Turf (Handles Image Upload)
   saveTurf$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TurfActions.saveTurf),
@@ -35,7 +35,24 @@ export class TurfEffects {
             TurfActions.saveTurfSuccess(),
             TurfActions.loadTurf()
           ]),
-          catchError((error) => of(TurfActions.saveTurfFailure({ error })))
+          catchError((error) =>
+            of(TurfActions.saveTurfFailure({ error: error.message || 'Unknown error' }))
+          )
+        )
+      )
+    )
+  );
+
+  // ✅ Delete Turf (Handles Turf Deletion)
+  deleteTurf$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TurfActions.deleteTurf),
+      mergeMap((action) =>
+        this._turfService.deleteTurf(action.turfId).pipe(
+          map(() => TurfActions.deleteTurfSuccess({ turfId: action.turfId })),
+          catchError((error) =>
+            of(TurfActions.deleteTurfFailure({ error: error.message || 'Unknown error' }))
+          )
         )
       )
     )
