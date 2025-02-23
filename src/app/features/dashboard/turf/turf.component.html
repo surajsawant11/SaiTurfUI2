@@ -1,6 +1,13 @@
 <div class="contact-page bg-gray-50 py-12 mt-5">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
 
+        <div class="flex justify-end mb-4">
+            <button class="bg-green-500 text-white font-medium py-2 px-4 rounded shadow hover:bg-green-600 transition"
+                (click)="openAddTurfDialog()">
+                + Add New Turf
+            </button>
+        </div>
+
         <!-- Responsive Table Wrapper -->
         <div class="table-responsive">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>

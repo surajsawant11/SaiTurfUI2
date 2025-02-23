@@ -17,3 +17,9 @@ export const selectTurfError = createSelector(
   selectTurfState,
   (state: TurfState) => state.error
 );
+
+// ✅ Add this selector to track save success
+export const selectSaveTurfSuccess = createSelector(
+  selectTurfState,
+  (state: TurfState) => state.saveSuccess
+);

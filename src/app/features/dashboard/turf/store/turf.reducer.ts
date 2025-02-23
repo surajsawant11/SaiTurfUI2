@@ -1,33 +1,58 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadTurf, loadTurfFailure, loadTurfSuccess } from './turf.actions';
+import * as TurfActions from './turf.actions';
 
 export interface TurfState {
-  turf: any;
+  turf: any[];   // List of turfs
   loading: boolean;
-  error: any;
+  error: string | null;
+  saveSuccess: boolean;  // ✅ Add this field
 }
 
 export const initialState: TurfState = {
-  turf: null,
+  turf: [],
   loading: false,
   error: null,
+  saveSuccess: false  // ✅ Initialize it
 };
 
 export const turfReducer = createReducer(
   initialState,
-  on(loadTurf, (state) => ({
+
+  on(TurfActions.loadTurf, (state) => ({
     ...state,
     loading: true,
-    error: null,
+    error: null
   })),
-  on(loadTurfSuccess, (state, { turf }) => ({
+
+  on(TurfActions.loadTurfSuccess, (state, { turf }) => ({
     ...state,
     turf,
-    loading: false,
+    loading: false
   })),
-  on(loadTurfFailure, (state, { error }) => ({
+
+  on(TurfActions.loadTurfFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error,
+    error
+  })),
+
+  // ✅ Handle save actions
+  on(TurfActions.saveTurf, (state) => ({
+    ...state,
+    loading: true,
+    saveSuccess: false // Reset before saving
+  })),
+
+  on(TurfActions.saveTurfSuccess, (state) => ({
+    ...state,
+    loading: false,
+    saveSuccess: true // Set to true on success
+  })),
+
+  on(TurfActions.saveTurfFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    saveSuccess: false,
+    error
   }))
 );

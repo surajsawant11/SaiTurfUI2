@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../../environment/environment';
 import { Store } from '@ngrx/store';
-import { selectTurfs } from '../store/turf.selectors';
 
 @Injectable({
     providedIn: 'root',
@@ -15,5 +14,9 @@ export class TurfService {
 
     loadTurfs(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/turfs`);
+    }
+
+    addTurf(formData: FormData): Observable<any> {
+        return this.http.post(`${this.apiUrl}/turfs/save`, formData);
     }
 }

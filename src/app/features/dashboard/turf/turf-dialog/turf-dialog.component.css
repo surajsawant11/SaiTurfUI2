@@ -1,0 +1,16 @@
+mat-form-field {
+    display: flex;
+    align-items: center;
+    min-height: 56px; /* Adjust height */
+  }
+  
+  mat-form-field .mat-form-field-outline {
+    display: none !important; /* Removes extra box */
+  }
+  
+  mat-form-field input {
+    border: none !important; /* Removes extra border */
+    outline: none !important;
+    background: transparent !important;
+  }
+  
