@@ -53,18 +53,21 @@ export class HomeComponent implements AfterViewInit {
   // Data for available turfs
   turfs = [
     {
+      id:'1',
       name: 'Football Turf',
       description: 'Perfect for 5-a-side games. Book your slot today!',
       price: '$50 per hour',
       image: 'assets/images/img7.jpg',
     },
     {
+      id:'2',
       name: 'Cricket Turf',
       description: 'Ideal for cricket games with your friends or team.',
       price: '$60 per hour',
       image: 'assets/images/img5.jpg',
     },
     {
+      id:'3',
       name: 'Indoor Turf',
       description: 'A great place for indoor football or futsal.',
       price: '$40 per hour',

@@ -57,7 +57,12 @@ export class AuthService {
     localStorage.removeItem('loginTimestamp');
     localStorage.removeItem('user');
   }
+
   logOut(): void {
     this.clearLocalStorage();
+  }
+
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.http.post<User>(`${this.apiUrl}/register`, { username, email, password });
   }
 }

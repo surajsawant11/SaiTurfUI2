@@ -5,10 +5,11 @@ import {
     HttpEvent,
     HttpInterceptor,
     HttpErrorResponse,
-    HttpStatusCode
+    HttpStatusCode,
+    HttpResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr'; // Assuming you're using Toastr for notifications
 
@@ -24,6 +25,18 @@ export class ErrorInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(
+            // Handle success responses
+            tap((event: HttpEvent<any>) => {
+                if (event instanceof HttpResponse && event.status >= 200 && event.status < 300) {
+                    if (event.body && event.body.message) {
+                        // If the backend returns a success message, show a success notification
+                        const successMessage = event.body.message || 'Operation was successful!';
+                        this.toastr.success(successMessage);
+                    }
+                }
+            }),
+
+            // Handle error responses
             catchError((error: HttpErrorResponse) => {
                 let errorMessage = 'An unexpected error occurred';
 
@@ -86,11 +99,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     private handleUnauthorized(): void {
         // Clear any stored tokens
         localStorage.removeItem('token');
-
-        // Redirect to login
-        this.router.navigate(['/login'], {
-            queryParams: { returnUrl: this.router.routerState.snapshot.url }
-        });
     }
 
     private handleBadRequest(error: HttpErrorResponse): string {

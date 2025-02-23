@@ -12,6 +12,6 @@ export class HomeService {
     constructor(private http: HttpClient) { }
 
     getPosts(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrl}/turf`);
+        return this.http.get<any[]>(`${this.apiUrl}/turfs`);
     }
 }
