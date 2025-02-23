@@ -9,7 +9,7 @@ import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { authReducer } from './store/reducers/auth/auth.reducer';
 import { AuthEffects } from './store/effects/auth/auth.effects';
 import { provideToastr } from 'ngx-toastr';
-import { provideAnimations } from '@angular/platform-browser/animations'; 
+import { provideAnimations } from '@angular/platform-browser/animations';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptorsFromDi(),
     ),
     provideAnimations(), // Required for ngx-toastr
-    provideToastr(), // Configure Toastr
+    provideToastr(), // Configure Toastr,
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   ],
 };

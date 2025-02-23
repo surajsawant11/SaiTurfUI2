@@ -2,10 +2,6 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import Swiper from 'swiper'; // Import Swiper
-import 'swiper/css'; // Import default Swiper styles
-import 'swiper/css/navigation'; // Import navigation styles
-import 'swiper/css/pagination'; // Import pagination styles
 import { loadHome } from './store/home.actions';
 import { selectHomeData } from './store/home.selectors';
 
@@ -27,17 +23,6 @@ export class HomeComponent implements AfterViewInit {
     this.store.dispatch(loadHome());
   }
   ngAfterViewInit() {
-    // Initialize Swiper after the view is fully initialized
-    new Swiper('.swiper-container', {
-      slidesPerView: 1,
-      spaceBetween: 10,
-      navigation: true,  // Enable navigation
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      loop: true,
-    });
   }
 
   // Data for the swiper slides

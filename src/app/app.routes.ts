@@ -7,7 +7,6 @@ import { AboutComponent } from './features/dashboard/about/about.component';
 import { ContactComponent } from './features/dashboard/contact/contact.component';
 import { AuthLayoutComponent } from './features/layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './features/layout/main-layout/main-layout.component';
-import { TurfComponent } from './features/dashboard/turf/turf.component';
 
 export const routes: Routes = [
     {
@@ -18,7 +17,7 @@ export const routes: Routes = [
             { path: '', loadChildren: () => import('./features/dashboard/home/home.routes').then(m => m.HOME_ROUTES), },
             { path: 'about', component: AboutComponent },
             { path: 'contact', component: ContactComponent },
-            { path: 'turf', component: TurfComponent, canActivate: [adminGuard] }
+            { path: 'turf', loadChildren: () => import('./features/dashboard/turf/turf.routes').then(m => m.TURF_ROUTES), canActivate: [adminGuard] }
         ]
     },
     {
