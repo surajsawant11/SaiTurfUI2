@@ -1,0 +1,22 @@
+.table-responsive {
+    overflow-x: auto;
+    /* Makes the table scrollable on small screens */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
+}
+
+.turf-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Mobile-Friendly Actions
+@media (max-width: 600px) {
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 5px;
+    }
+} */

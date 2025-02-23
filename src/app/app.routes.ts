@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, noAuthGuard } from './core/guards/auth.guard';
+import { adminGuard, authGuard, noAuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
@@ -16,13 +16,13 @@ export const routes: Routes = [
         children: [
             { path: '', loadChildren: () => import('./features/dashboard/home/home.routes').then(m => m.HOME_ROUTES), },
             { path: 'about', component: AboutComponent },
-            { path: 'contact', component: ContactComponent }
+            { path: 'contact', component: ContactComponent },
+            { path: 'turf', loadChildren: () => import('./features/dashboard/turf/turf.routes').then(m => m.TURF_ROUTES), canActivate: [adminGuard] }
         ]
     },
     {
         path: '',
         component: AuthLayoutComponent,
-        canActivate: [noAuthGuard],
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },
