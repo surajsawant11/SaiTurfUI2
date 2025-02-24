@@ -1,0 +1,152 @@
+<div class="contact-page bg-gray-50 py-12 mt-5">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+    <div class="p-6">
+      <!-- Display selected booking details if `bookingId` is present -->
+      @if (bookingId) {
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-bold text-gray-900">Booking Details</h2>
+        <!-- Go Back Button -->
+       
+        <div class="group relative rounded-full px-4 py-2 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 transition-all duration-300 overflow-hidden">
+          <button class="font-semibold text-green-600 flex items-center w-full text-left bg-transparent border-none focus:outline-none hover:bg-green-50 transition-colors duration-300" (click)="goBack()">
+            <span>Go Back</span>
+          </button>
+        </div>
+      </div>
+      <table mat-table [dataSource]="dataSource" class="w-full">
+        <!-- Booking Date Column -->
+        <ng-container matColumnDef="bookingDate">
+          <th mat-header-cell *matHeaderCellDef>Booking Date</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.bookingDate }}</td>
+        </ng-container>
+
+        <!-- Start Time Column -->
+        <ng-container matColumnDef="startTime">
+          <th mat-header-cell *matHeaderCellDef>Start Time</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.startTime }}</td>
+        </ng-container>
+
+        <!-- End Time Column -->
+        <ng-container matColumnDef="endTime">
+          <th mat-header-cell *matHeaderCellDef>End Time</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.endTime }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let booking">
+            <span [ngClass]="{
+                'bg-yellow-100 text-yellow-800': booking.status === 'PENDING',
+                'bg-green-100 text-green-800': booking.status === 'CONFIRMED',
+                'bg-red-100 text-red-800': booking.status === 'CANCELLED'
+              }" class="px-2 py-1 rounded-full text-sm">
+              {{ booking.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Total Price Column -->
+        <ng-container matColumnDef="totalPrice">
+          <th mat-header-cell *matHeaderCellDef>Total Price</th>
+          <td mat-cell *matCellDef="let booking">${{ booking.totalPrice }}</td>
+        </ng-container>
+
+        <!-- Turf Name Column -->
+        <ng-container matColumnDef="turfName">
+          <th mat-header-cell *matHeaderCellDef>Turf Name</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.turf.name }}</td>
+        </ng-container>
+
+        <!-- User Name Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User Name</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.user.username }}</td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedViewDetailColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedViewDetailColumns;"></tr>
+      </table>
+      }
+      @else {
+      <!-- Display all bookings if no `bookingId` is present -->
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">All Bookings</h2>
+      <!-- Filter Input -->
+      <div class="mt-4">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter" class="p-2 border border-gray-300 rounded" />
+      </div>
+      <table mat-table [dataSource]="dataSource" class="w-full" matSort>
+        <!-- Booking Date Column -->
+        <ng-container matColumnDef="bookingDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking Date</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.bookingDate }}</td>
+        </ng-container>
+
+        <!-- Start Time Column -->
+        <ng-container matColumnDef="startTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Time</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.startTime }}</td>
+        </ng-container>
+
+        <!-- End Time Column -->
+        <ng-container matColumnDef="endTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>End Time</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.endTime }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let booking">
+            <span [ngClass]="{
+                'bg-yellow-100 text-yellow-800': booking.status === 'PENDING',
+                'bg-green-100 text-green-800': booking.status === 'CONFIRMED',
+                'bg-red-100 text-red-800': booking.status === 'CANCELLED'
+              }" class="px-2 py-1 rounded-full text-sm">
+              {{ booking.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Total Price Column -->
+        <ng-container matColumnDef="totalPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
+          <td mat-cell *matCellDef="let booking">${{ booking.totalPrice }}</td>
+        </ng-container>
+
+        <!-- Turf Name Column -->
+        <ng-container matColumnDef="turfName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Turf Name</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.turf.name }}</td>
+        </ng-container>
+
+        <!-- User Name Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>User Name</th>
+          <td mat-cell *matCellDef="let booking">{{ booking.user.username }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let booking">
+            <!-- View Icon with Click Action -->
+            <button mat-icon-button color="primary" (click)="viewBookingDetails(booking.id)"
+              aria-label="View Booking Details">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      }
+    </div>
+  </div>
+</div>
