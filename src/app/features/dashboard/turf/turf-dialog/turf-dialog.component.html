@@ -1,39 +1,41 @@
-<div class="bg-white shadow-lg rounded-lg p-6 w-full mx-auto ">
+<div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-2xl mx-auto">
   <h2 class="text-2xl font-bold text-center mb-4 text-green-700">
     {{ data ? 'Edit Turf' : 'Add New Turf' }}
   </h2>
 
   <form [formGroup]="turfForm" class="space-y-4">
-    <!-- Name -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Name</label>
-      <input type="text" formControlName="name"
-        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
-        placeholder="Enter Turf Name">
+    <!-- Name & Location (Two Fields in One Row) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" formControlName="name"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
+          placeholder="Enter Turf Name">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Location</label>
+        <input type="text" formControlName="location"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
+          placeholder="Enter Location">
+      </div>
     </div>
 
-    <!-- Location -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Location</label>
-      <input type="text" formControlName="location"
-        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
-        placeholder="Enter Location">
-    </div>
+    <!-- Price Per Hour & Capacity (Two Fields in One Row) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Price Per Hour</label>
+        <input type="number" formControlName="pricePerHour"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
+          placeholder="Enter Price">
+      </div>
 
-    <!-- Price Per Hour -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Price Per Hour</label>
-      <input type="number" formControlName="pricePerHour"
-        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
-        placeholder="Enter Price">
-    </div>
-
-    <!-- Capacity -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Capacity</label>
-      <input type="number" formControlName="capacity"
-        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
-        placeholder="Enter Capacity">
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Capacity</label>
+        <input type="number" formControlName="capacity"
+          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 outline-none transition"
+          placeholder="Enter Capacity">
+      </div>
     </div>
 
     <!-- Image Upload -->
@@ -50,14 +52,14 @@
       </div>
     </div>
   </form>
-  
+
   <!-- Dialog Actions -->
   <div class="flex justify-end space-x-4 mt-6 bg-white py-4 w-full">
     <button
       class="px-6 py-2 bg-gray-500 text-white rounded-lg transition duration-300 ease-in-out transform hover:bg-gray-600 hover:scale-105 active:scale-95 shadow-md"
-      (click)="onCancel()" style="padding: 30px; margin: 0px; margin-right: 10px;">Cancel</button>
+      (click)="onCancel()">Cancel</button>
     <button
       class="px-6 py-2 bg-green-500 text-white rounded-lg transition duration-300 ease-in-out transform hover:bg-green-600 hover:scale-105 active:scale-95 shadow-md"
-      (click)="onSave()" style="padding: 30px; margin: 0px;">Save</button>
+      (click)="onSave()">Save</button>
   </div>
 </div>
