@@ -1,25 +1,24 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, exhaustMap, catchError, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { TurfService } from '../service/turf.service';
 import * as TurfActions from './turf.actions';
+import { of } from 'rxjs';
 
 @Injectable()
 export class TurfEffects {
   private actions$ = inject(Actions);
   private _turfService = inject(TurfService);
 
-  // ✅ Load Turf List (Fixed typo)
-  loadTurfs$ = createEffect(() => {
+  loadHome$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(TurfActions.loadTurf),
       exhaustMap(() =>
         this._turfService.loadTurfs().pipe(
-          map((turfs) => TurfActions.loadTurfSuccess({ turfs })), // ✅ Fixed 'turfs'
-          catchError((error) =>
-            of(TurfActions.loadTurfFailure({ error: error.message || 'Unknown error' }))
-          )
+          map((turfs) => TurfActions.loadTurfSuccess({ turfs })),
+          catchError((error) => {
+            return [TurfActions.loadTurfFailure({ error: error.message || 'Unknown error' })];
+          })
         )
       )
     );
