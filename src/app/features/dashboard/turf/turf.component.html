@@ -67,24 +67,29 @@
 
         <!-- No Data Template -->
         <ng-template #noDataTemplate>
-            <div class="text-center py-12">
-                <img src="assets/images/NO_DATA.jpg" alt="No Data" class="w-56 mx-auto opacity-75 mb-4">
-                <p class="text-lg font-semibold text-gray-700">No turfs available at the moment.</p>
-                <p class="text-gray-500 mb-4">Click on <strong>"Add New Turf"</strong> to add a new turf.</p>
-
-                <!-- Stylish Add Turf Button -->
-                <div class="flex justify-center mt-6">
-                    <button 
-                        class="bg-green-500 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-green-600 flex items-center gap-2"
-                        (click)="openAddTurfDialog()">
-                        <mat-icon>add_circle</mat-icon>
-                        <span>Add New Turf</span>
-                    </button>
-                </div>
-                
-
+            <div class="text-center py-12 flex flex-col items-center">
+                <!-- No Data SVG -->
+                <svg width="180px" height="180px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#E5E7EB" d="M8 2h6.586c.53 0 1.04.211 1.414.586l3.414 3.414c.375.374.586.884.586 1.414V20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/>
+                    <path fill="#9CA3AF" d="M14 2v3a2 2 0 0 0 2 2h3"/>
+                    <circle cx="10" cy="10" r="3" stroke="#374151" stroke-width="1.5"/>
+                    <path stroke="#374151" stroke-width="1.5" d="M14 14.5 12.5 13"/>
+                </svg>
+        
+                <!-- No Data Message -->
+                <p class="text-lg font-semibold text-gray-700 mt-4">No turfs available at the moment.</p>
+                <p class="text-gray-500 mb-6">Click on <strong>"Add New Turf"</strong> to add a new turf.</p>
+        
+                <!-- Centered Add Turf Button -->
+                <button 
+                    class="bg-green-500 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-green-600 flex items-center justify-center gap-2"
+                    (click)="openAddTurfDialog()">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>Add New Turf</span>
+                </button>
             </div>
         </ng-template>
+        
 
         <!-- Paginator -->
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
