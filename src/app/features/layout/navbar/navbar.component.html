@@ -47,7 +47,8 @@
                 routerLink="/about" routerLinkActive="bg-gray-100 !text-gray-900">About</a>
               <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
                 routerLink="/contact" routerLinkActive="bg-gray-100 !text-gray-900">Contact</a>
-              <a *hasRole="['ADMIN']" class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+              <a *hasRole="['ADMIN']"
+                class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
                 routerLink="/turf" routerLinkActive="bg-gray-100 !text-gray-900">Turf</a>
             </div>
           </div>
@@ -93,9 +94,12 @@
           routerLink="/" routerLinkActive="bg-gray-100 !text-gray-900"
           [routerLinkActiveOptions]="{exact: true}">Home</a>
         <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
-          routerLink="/about">About</a>
+          routerLink="/about" routerLinkActive="bg-gray-100 !text-gray-900">About</a>
         <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
-          routerLink="/contact">Contact</a>
+          routerLink="/contact" routerLinkActive="bg-gray-100 !text-gray-900">Contact</a>
+        <a *hasRole="['ADMIN']"
+          class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/turf" routerLinkActive="bg-gray-100 !text-gray-900">Turf</a>
       </div>
     </div>
     }

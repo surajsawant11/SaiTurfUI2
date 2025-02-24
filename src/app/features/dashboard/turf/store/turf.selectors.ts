@@ -5,7 +5,7 @@ export const selectTurfState = createFeatureSelector<TurfState>('turf');
 
 export const selectTurfs = createSelector(
   selectTurfState,
-  (state: TurfState) => state.turf
+  (state: TurfState) => state.turfs
 );
 
 export const selectTurfLoading = createSelector(
@@ -17,3 +17,15 @@ export const selectTurfError = createSelector(
   selectTurfState,
   (state: TurfState) => state.error
 );
+
+// ✅ Add this selector to track save success
+export const selectSaveTurfSuccess = createSelector(
+  selectTurfState,
+  (state: TurfState) => state.saveSuccess
+);
+
+export const selectDeleteTurfSuccess = createSelector(
+  selectTurfState,
+  (state: TurfState) => state.deleteSuccess
+);
+

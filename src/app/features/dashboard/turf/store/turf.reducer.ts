@@ -1,33 +1,82 @@
 import { createReducer, on } from '@ngrx/store';
-import { loadTurf, loadTurfFailure, loadTurfSuccess } from './turf.actions';
+import * as TurfActions from './turf.actions';
 
 export interface TurfState {
-  turf: any;
+  turfs: any[];   // ✅ Changed 'turf' to 'turfs' for clarity
   loading: boolean;
-  error: any;
+  error: string | null;
+  saveSuccess: boolean;  
+  deleteSuccess: boolean;
 }
 
 export const initialState: TurfState = {
-  turf: null,
+  turfs: [],  // ✅ Ensure consistency
   loading: false,
   error: null,
+  saveSuccess: false,  
+  deleteSuccess: false, 
 };
 
 export const turfReducer = createReducer(
   initialState,
-  on(loadTurf, (state) => ({
+
+  // ✅ Load Turf Actions
+  on(TurfActions.loadTurf, (state) => ({
     ...state,
     loading: true,
-    error: null,
+    error: null
   })),
-  on(loadTurfSuccess, (state, { turf }) => ({
+
+  on(TurfActions.loadTurfSuccess, (state, { turfs }) => ({
     ...state,
-    turf,
-    loading: false,
+    turfs,  // ✅ Assigning to correct key
+    loading: false
   })),
-  on(loadTurfFailure, (state, { error }) => ({
+
+  on(TurfActions.loadTurfFailure, (state, { error }) => ({
     ...state,
     loading: false,
-    error,
+    error
+  })),
+
+  // ✅ Save Turf Actions
+  on(TurfActions.saveTurf, (state) => ({
+    ...state,
+    loading: true,
+    saveSuccess: false // Reset before saving
+  })),
+
+  on(TurfActions.saveTurfSuccess, (state) => ({
+    ...state,
+    loading: false,
+    saveSuccess: true
+  })),
+
+  on(TurfActions.saveTurfFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    saveSuccess: false,
+    error
+  })),
+
+  // ✅ Delete Turf Actions
+  on(TurfActions.deleteTurf, (state) => ({
+    ...state,
+    loading: true,
+    deleteSuccess: false // Reset before deleting
+  })),
+
+  on(TurfActions.deleteTurfSuccess, (state, { turfId }) => ({
+    ...state,
+    loading: false,
+    deleteSuccess: true,
+    turfs: state.turfs.filter(turf => turf.id !== turfId) // ✅ Removing deleted turf
+  })),
+
+  on(TurfActions.deleteTurfFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    deleteSuccess: false,
+    error
   }))
 );

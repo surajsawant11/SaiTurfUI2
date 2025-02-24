@@ -10,8 +10,12 @@ import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTurfs } from './store/turf.selectors';
-import { loadTurf } from './store/turf.actions';
+import { deleteTurf, loadTurf } from './store/turf.actions';
 import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
+import { MatDialog } from '@angular/material/dialog';
+import { TurfDialogComponent } from './turf-dialog/turf-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar'
+
 
 @Component({
   selector: 'app-turf',
@@ -45,7 +49,7 @@ export class TurfComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store) {
+  constructor(private store: Store,private dialog: MatDialog, private snackBar: MatSnackBar ) {
     this.turfs$ = this.store.select(selectTurfs); // Select turfs from the store
   }
 
@@ -60,11 +64,38 @@ export class TurfComponent implements OnInit {
   }
 
   onEdit(turf: any) {
-    console.log('Edit turf:', turf);
+    const dialogRef = this.dialog.open(TurfDialogComponent, {
+      width: '500px',
+      data: { ...turf }, // Ensure full data is passed
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Updated Turf:', result);
+        this.store.dispatch(loadTurf()); // Reload the turf list after editing
+      }
+    });
+  }
+  
+
+  onDelete(turf: any) {
+    if (confirm(`Are you sure you want to delete ${turf.name}?`)) {
+      this.store.dispatch(deleteTurf({ turfId: turf.id }));
+      this.snackBar.open('Turf deleted successfully', 'Close', { duration: 3000 });
+    }
   }
 
-  // Method to handle delete action
-  onDelete(turf: any) {
-    console.log('Delete turf:', turf);
+  openAddTurfDialog(): void {
+    const dialogRef = this.dialog.open(TurfDialogComponent, {
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('Turf Added:', result);
+        // TODO: Call API to refresh turf list
+      }
+    });
   }
+
 }
