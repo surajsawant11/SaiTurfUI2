@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
 import { MatDialog } from '@angular/material/dialog';
 import { TurfDialogComponent } from './turf-dialog/turf-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar'
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-turf',
@@ -78,12 +78,45 @@ export class TurfComponent implements OnInit {
   }
   
 
+  // onDelete(turf: any) {
+  //   if (confirm(`Are you sure you want to delete ${turf.name}?`)) {
+  //     this.store.dispatch(deleteTurf({ turfId: turf.id }));
+  //     this.snackBar.open('Turf deleted successfully', 'Close', { duration: 3000 });
+  //   }
+  // }
   onDelete(turf: any) {
-    if (confirm(`Are you sure you want to delete ${turf.name}?`)) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: `You are about to remove "${turf.name}". This action cannot be undone!`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, keep it",
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
       this.store.dispatch(deleteTurf({ turfId: turf.id }));
-      this.snackBar.open('Turf deleted successfully', 'Close', { duration: 3000 });
+
+      Swal.fire({
+        title: "Deleted!",
+        text: `"${turf.name}" has been successfully removed.`,
+        icon: "success",
+        timer: 2500,
+        showConfirmButton: false
+      });
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      Swal.fire({
+        title: "Cancelled",
+        text: `"${turf.name}" is safe!`,
+        icon: "info",
+        timer: 2000,
+        showConfirmButton: false
+      });
     }
-  }
+  });
+}
 
   openAddTurfDialog(): void {
     const dialogRef = this.dialog.open(TurfDialogComponent, {
