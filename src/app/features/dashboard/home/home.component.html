@@ -28,45 +28,84 @@
   </div>
 
   <!-- Turf Grid Section -->
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 mt-2 py-12"> 
-    <div class="text-center mb-12">
-      <!-- Added Underline Section -->
-      <div class="w-35 mx-auto border-t-4 border-gray-400 mb-4"></div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl mt-2 py-12">
+    <div class="text-center mb-6">
+      <div class="w-24 mx-auto border-t-4 border-gray-400 mb-4"></div>
       <h2 class="text-3xl font-bold text-gray-900">Our Turf Collection</h2>
       <p class="text-lg text-gray-600 mt-4">Explore our wide range of premium turfs designed for every sport.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      @for (turf of turfs; track turf.id) {
-      <div
-        class="relative flex flex-col bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-        <div class="relative h-48">
-          <img [src]="turf.image" class="w-full h-full object-cover" [alt]="turf.name" />
-          <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-            <h5 class="text-xl font-semibold text-white">{{ turf.name }}</h5>
+
+    <!-- Horizontal Scroll Wrapper -->
+    <div class="relative w-full max-w-screen-lg mx-auto">
+
+      <!-- Left Scroll Button -->
+      <button
+        class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 text-gray-900 p-3 rounded-full shadow-lg hover:bg-gray-400 transition z-10"
+        (click)="scrollLeft()">
+        <img src="assets/icon/right-arrow.png" class="w-6 h-6" alt="Scroll Left">
+      </button>
+
+
+      <!-- Scrollable Cards -->
+      <div class="flex overflow-x-auto space-x-6 p-4 scroll-smooth scrollbar-hide w-full" #scrollContainer>
+        @for (turf of turfs; track turf.id) {
+        <div
+          class="relative flex flex-col bg-white rounded-lg shadow-lg overflow-hidden w-80 min-w-[300px] transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+          <div class="relative h-48">
+            <img [src]="turf.image" class="w-full h-full object-cover" [alt]="turf.name" />
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
+              <h5 class="text-xl font-semibold text-white">{{ turf.name }}</h5>
+            </div>
+          </div>
+          <div class="px-6 py-4">
+            <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ turf.description }}</p>
+            <p class="text-lg text-gray-800 font-semibold">
+              <strong class="text-gray-700">Price:</strong> <span class="text-gray-600">{{ turf.price }}</span>
+            </p>
+          </div>
+          <div class="px-6 pb-6 flex justify-center">
+            <button
+              class="text-green-600 rounded-lg px-6 py-2 text-sm font-medium transition duration-300 ease-in-out shadow-md transform hover:scale-105 hover:bg-green-100">
+              Book Now
+            </button>
           </div>
         </div>
-        <div class="px-6 py-4">
-          <p class="text-sm text-gray-600 leading-relaxed mb-4">{{ turf.description }}</p>
-          <p class="text-lg text-gray-800 font-semibold">
-            <strong class="text-gray-700">Price:</strong> <span class="text-gray-600">{{ turf.price }}</span>
-          </p>
+        } @empty {
+        <div class="text-center text-lg text-gray-600 py-12 w-full">
+          No turfs available at the moment. Please check back later!
         </div>
-        <div class="px-6 pb-6 flex justify-between items-center">
-          <button
-            class="text-gray-800 rounded-lg px-4 py-2 text-sm font-medium transition duration-300 ease-in-out shadow-md transform hover:scale-105 hover:bg-gray-100">
-            View Details
-          </button>
-          <button
-            class="text-green-600 rounded-lg px-4 py-2 text-sm font-medium transition duration-300 ease-in-out shadow-md transform hover:scale-105 hover:bg-green-100">
-            Book Now
-          </button>
-        </div>
+        }
       </div>
-      }@empty {
-      <div class="col-span-full text-center text-lg text-gray-600 py-12">
-        No turfs available at the moment. Please check back later!
-      </div>
-      }
+
+      <!-- Right Scroll Button -->
+      <button
+        class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-300 text-gray-900 p-3 rounded-full shadow-lg hover:bg-gray-400 transition z-10"
+        (click)="scrollRight()">
+        <img src="assets/icon/right-arrow.png" class="w-6 h-6 transform rotate-180" alt="Scroll Right">
+      </button>
+
+
     </div>
+
+    <!-- View All Button -->
+    <div class="mt-8 text-center">
+      <button
+        class="bg-gradient-to-r from-green-600 to-green-400 text-white px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:from-green-700 hover:to-green-500">
+        View All
+      </button>
+    </div>
+    
+
   </div>
+
+
+
+
+
+
+
+
+
+
+
 </div>
