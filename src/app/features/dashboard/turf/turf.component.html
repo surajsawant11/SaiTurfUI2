@@ -1,7 +1,8 @@
 <div class="contact-page bg-gray-50 py-12 mt-5">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
 
-        <div class="flex justify-end mb-4">
+        <!-- Add Turf Button (Visible only if turfs exist) -->
+        <div class="flex justify-end mb-4" *ngIf="dataSource.data.length > 0">
             <button class="bg-green-500 text-white font-medium py-2 px-4 rounded shadow hover:bg-green-600 transition"
                 (click)="openAddTurfDialog()">
                 + Add New Turf
@@ -9,7 +10,7 @@
         </div>
 
         <!-- Responsive Table Wrapper -->
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="dataSource.data.length > 0; else noDataTemplate">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
                 <!-- Name Column -->
@@ -54,17 +55,40 @@
                         <button mat-icon-button color="warn" (click)="onDelete(turf)">
                             <mat-icon>delete</mat-icon>
                         </button>
-                    </td>                    
+                    </td>
                 </ng-container>
 
                 <!-- Table Rows -->
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;" @fadeIn></tr>
             </table>
+
         </div>
 
+        <!-- No Data Template -->
+        <ng-template #noDataTemplate>
+            <div class="text-center py-12">
+                <img src="assets/images/NO_DATA.jpg" alt="No Data" class="w-56 mx-auto opacity-75 mb-4">
+                <p class="text-lg font-semibold text-gray-700">No turfs available at the moment.</p>
+                <p class="text-gray-500 mb-4">Click on <strong>"Add New Turf"</strong> to add a new turf.</p>
+
+                <!-- Stylish Add Turf Button -->
+                <div class="flex justify-center mt-6">
+                    <button 
+                        class="bg-green-500 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-green-600 flex items-center gap-2"
+                        (click)="openAddTurfDialog()">
+                        <mat-icon>add_circle</mat-icon>
+                        <span>Add New Turf</span>
+                    </button>
+                </div>
+                
+
+            </div>
+        </ng-template>
+
         <!-- Paginator -->
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            *ngIf="dataSource.data.length > 0"></mat-paginator>
 
     </div>
 </div>

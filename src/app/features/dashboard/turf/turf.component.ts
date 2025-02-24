@@ -1,6 +1,6 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from '@angular/common';
@@ -11,112 +11,112 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectTurfs } from './store/turf.selectors';
 import { deleteTurf, loadTurf } from './store/turf.actions';
-import { MatIconModule } from '@angular/material/icon'; // Import MatIconModule
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { TurfDialogComponent } from './turf-dialog/turf-dialog.component';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-turf',
-  standalone: true, // Mark as standalone
+  standalone: true,
   imports: [
     MatTableModule,
     MatPaginator,
-    MatSortModule,
+    MatSort,
     CommonModule,
     MatButtonModule,
     MatInputModule,
     FormsModule,
-    MatIconModule, // Add MatIconModule
+    MatIconModule,
   ],
   templateUrl: './turf.component.html',
   styleUrls: ['./turf.component.css'],
   animations: [
     trigger('fadeIn', [
-      state('void', style({ opacity: 0, transform: 'translateY(-20px)' })), // Initial state (hidden and slightly moved up)
-      transition(':enter', [ // When the element is added to the DOM
-        animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })) // Animate to visible and original position
-      ])
+      state('void', style({ opacity: 0, transform: 'translateY(-20px)' })),
+      transition(':enter', [animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' }))])
     ])
   ]
 })
-export class TurfComponent implements OnInit {
-  turfs$: Observable<any[]>; // Observable to hold turfs from the store
-  displayedColumns: string[] = ['name', 'location', 'pricePerHour', 'capacity', 'imageUrl', 'actions']; // Add 'actions' column
-  dataSource = new MatTableDataSource<any>(); // Data source for the table
+export class TurfComponent implements OnInit, AfterViewInit {
+  turfs$: Observable<any[]>; 
+  displayedColumns: string[] = ['name', 'location', 'pricePerHour', 'capacity', 'imageUrl', 'actions'];
+  dataSource = new MatTableDataSource<any>(); 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private store: Store,private dialog: MatDialog, private snackBar: MatSnackBar ) {
-    this.turfs$ = this.store.select(selectTurfs); // Select turfs from the store
+  constructor(private store: Store, private dialog: MatDialog, private snackBar: MatSnackBar) {
+    this.turfs$ = this.store.select(selectTurfs);
   }
 
   ngOnInit() {
     this.store.dispatch(loadTurf());
-
     this.turfs$.subscribe((turfs) => {
-      this.dataSource.data = turfs; // Bind the data to the table
-      this.dataSource.paginator = this.paginator; // Enable pagination
-      this.dataSource.sort = this.sort; // Enable sorting
+      this.dataSource.data = turfs;
     });
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  get isDataEmpty(): boolean {
+    return this.dataSource.data.length === 0;
   }
 
   onEdit(turf: any) {
     const dialogRef = this.dialog.open(TurfDialogComponent, {
       width: '500px',
-      data: { ...turf }, // Ensure full data is passed
+      data: { ...turf },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Updated Turf:', result);
-        this.store.dispatch(loadTurf()); // Reload the turf list after editing
+        this.store.dispatch(loadTurf()); 
       }
     });
   }
-  
 
-  // onDelete(turf: any) {
-  //   if (confirm(`Are you sure you want to delete ${turf.name}?`)) {
-  //     this.store.dispatch(deleteTurf({ turfId: turf.id }));
-  //     this.snackBar.open('Turf deleted successfully', 'Close', { duration: 3000 });
-  //   }
-  // }
   onDelete(turf: any) {
-  Swal.fire({
-    title: "Are you sure?",
-    text: `You are about to remove "${turf.name}". This action cannot be undone!`,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, keep it",
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.store.dispatch(deleteTurf({ turfId: turf.id }));
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You are about to remove "${turf.name}". This action cannot be undone!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.store.dispatch(deleteTurf({ turfId: turf.id }));
 
-      Swal.fire({
-        title: "Deleted!",
-        text: `"${turf.name}" has been successfully removed.`,
-        icon: "success",
-        timer: 2500,
-        showConfirmButton: false
-      });
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      Swal.fire({
-        title: "Cancelled",
-        text: `"${turf.name}" is safe!`,
-        icon: "info",
-        timer: 2000,
-        showConfirmButton: false
-      });
-    }
-  });
-}
+        Swal.fire({
+          title: "Deleted!",
+          text: `"${turf.name}" has been successfully removed.`,
+          icon: "success",
+          timer: 2500,
+          showConfirmButton: false
+        });
+
+        // Refresh data
+        this.store.dispatch(loadTurf());
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire({
+          title: "Cancelled",
+          text: `"${turf.name}" is safe!`,
+          icon: "info",
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    });
+  }
 
   openAddTurfDialog(): void {
     const dialogRef = this.dialog.open(TurfDialogComponent, {
@@ -126,9 +126,8 @@ export class TurfComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Turf Added:', result);
-        // TODO: Call API to refresh turf list
+        this.store.dispatch(loadTurf());
       }
     });
   }
-
 }

@@ -5,18 +5,17 @@
     /* Smooth scrolling on iOS */
 }
 
-.turf-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
 
-/* Mobile-Friendly Actions
-@media (max-width: 600px) {
-    .action-buttons {
-        display: flex;
-        justify-content: space-between;
-        gap: 5px;
-    }
-} */
+.turf-img {
+    width: 80px;  /* Increase width */
+    height: 80px; /* Increase height */
+    border-radius: 8px; /* Optional: Rounded corners */
+    object-fit: cover; /* Ensure image scales properly */
+    transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+  }
+  
+  /* Optional: Hover effect */
+  .turf-img:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+  }
+  
