@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ViewChild, ElementRef, HostListener} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Observable } from 'rxjs';
 import { loadHome } from './store/home.actions';
 import { selectHomeData } from './store/home.selectors';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +16,6 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 export class HomeComponent implements AfterViewInit {
   posts$: Observable<any[]>; // Observable to hold posts
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
-  private isDragging = false;
 
   constructor(private store: Store) {
     this.posts$ = this.store.select(selectHomeData); // Select posts from the store

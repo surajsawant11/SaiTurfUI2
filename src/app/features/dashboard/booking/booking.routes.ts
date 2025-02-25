@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { provideState } from '@ngrx/store';
 import { BookingComponent } from './booking.component';
-import { bookReducer } from './store/booking.reducer';
 import { BookEffects } from './store/booking.effects';
+import { bookReducer } from './store/booking.reducer';
 
 export const BOOKING_ROUTES: Routes = [
     {

@@ -1,14 +1,14 @@
+import { NgClass } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
-import { selectBook, selectBookings } from './store/booking.selectors';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { loadBook, loadBookings } from './store/booking.actions';
-import { NgClass } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
+import { selectBook, selectBookings } from './store/booking.selectors';
 
 export interface Booking {
   bookingDate: string;
