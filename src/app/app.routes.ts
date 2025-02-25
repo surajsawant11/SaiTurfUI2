@@ -17,7 +17,8 @@ export const routes: Routes = [
             { path: '', loadChildren: () => import('./features/dashboard/home/home.routes').then(m => m.HOME_ROUTES), },
             { path: 'about', component: AboutComponent },
             { path: 'contact', component: ContactComponent },
-            { path: 'turf', loadChildren: () => import('./features/dashboard/turf/turf.routes').then(m => m.TURF_ROUTES), canActivate: [adminGuard] }
+            { path: 'turf', loadChildren: () => import('./features/dashboard/turf/turf.routes').then(m => m.TURF_ROUTES), canActivate: [adminGuard] },
+            { path: 'book', loadChildren: () => import('./features/dashboard/booking/booking.routes').then(m => m.BOOKING_ROUTES) }
         ]
     },
     {
