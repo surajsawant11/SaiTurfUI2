@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Observable } from 'rxjs';
@@ -17,7 +17,7 @@ export class HomeComponent implements AfterViewInit {
   posts$: Observable<any[]>; // Observable to hold posts
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private el: ElementRef, private renderer: Renderer2) {
     this.posts$ = this.store.select(selectHomeData); // Select posts from the store
   }
 
@@ -35,6 +35,18 @@ export class HomeComponent implements AfterViewInit {
     { image: 'assets/images/img8.jpg', alt: 'Slide 3' },
   ];
 
+  galleryImages = [
+    { id: 1, src: 'assets/gallery/gallery1.jpg', message: 'Perfect for Football' },
+    { id: 2, src: 'assets/gallery/gallery2.jpg', message: 'Engineered for Speed' },
+    { id: 3, src: 'assets/gallery/gallery3.jpg', message: 'Best for Multi-Sports' },
+    { id: 4, src: 'assets/gallery/gallery4.jpg', message: 'Durability & Performance' },
+    { id: 5, src: 'assets/gallery/gallery5.jpg', message: 'Ideal for Training' },
+    { id: 6, src: 'assets/gallery/gallery6.jpg', message: 'Designed for Champions' }
+  ];
+  trackById(index: number, item: any): number | string {
+    return item.id ? item.id : index; // Use id if available, else fallback to index
+  }
+  
 
   // Data for available turfs
   turfs = [
