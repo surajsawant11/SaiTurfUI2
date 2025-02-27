@@ -14,6 +14,7 @@ import { deleteTurf, loadTurf } from './store/turf.actions';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { TurfDialogComponent } from './turf-dialog/turf-dialog.component';
+import { environment } from '../../../../environment/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
 
@@ -53,15 +54,34 @@ export class TurfComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.store.dispatch(loadTurf());
+  
     this.turfs$.subscribe((turfs) => {
-      this.dataSource.data = turfs;
+      this.dataSource.data = turfs.map(turf => ({
+        ...turf,
+        imageUrl: `${environment.apiUrl}${turf.imageUrl}`
+      }));
+  
+      // Ensure paginator and sorting are assigned after data is updated
+      setTimeout(() => {
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
+        if (this.sort) {
+          this.dataSource.sort = this.sort;
+        }
+      });
     });
   }
-
+  
+  
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
+  
+  
 
   get isDataEmpty(): boolean {
     return this.dataSource.data.length === 0;

@@ -48,9 +48,14 @@ export class ErrorInterceptor implements HttpInterceptor {
                 }
 
                 // Handle server-side errors
+                debugger
                 switch (error.status) {
                     case HttpStatusCode.Unauthorized: // 401
-                        errorMessage = 'Unauthorized access. Please login again.';
+                    if (error.error?.message) {
+                        errorMessage = error.error.message; // Use the backend message
+                    } else {
+                        errorMessage = 'Unauthorized access. Please login again.'; // Default message if no message from backend
+                    }
                         this.handleUnauthorized();
                         break;
 

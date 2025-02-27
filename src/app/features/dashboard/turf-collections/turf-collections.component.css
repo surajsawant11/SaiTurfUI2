@@ -1,0 +1,100 @@
+.main-content {
+    padding-top: 100px; /* Adjust this based on your navbar height */
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive grid */
+    gap: 40px; /* Space between cards */
+}
+
+/* General Card Styles */
+.gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    min-height: 480px; /* Increased card height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hover Effect - Light Green Shadow */
+.gallery-item:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0px 10px 25px rgba(76, 175, 80, 0.4); /* Light Green Glow */
+}
+
+/* Image Section */
+.image-container {
+    width: 100%;
+    height: 250px; /* Fixed height */
+    overflow: hidden;
+    position: relative;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Image Zoom on Hover */
+.gallery-item:hover .image-container img {
+    transform: scale(1.05);
+}
+
+/* Price Tag */
+.price-tag {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: #2E7D32;
+    color: white;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Content */
+.card-content {
+    padding: 20px;
+    flex-grow: 1; /* Pushes button to the bottom */
+    text-align: center;
+}
+
+/* Title */
+.card-content h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+/* Description */
+.card-content p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Book Now Button */
+.book-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2E7D32;
+    color: white;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, background-color 0.3s;
+}
+
+/* Button Hover Effect */
+.book-button:hover {
+    background-color: #1B5E20;
+    transform: scale(1.05);
+}

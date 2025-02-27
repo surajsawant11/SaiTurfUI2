@@ -1,0 +1,34 @@
+<div class="min-h-screen bg-gray-100 p-10 main-content">
+    <!-- <h2 class="text-4xl font-bold text-center text-gray-800 mb-12">🏆 Featured Turfs</h2> -->
+  
+    <!-- Turf Grid Container -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <mat-card *ngFor="let turf of turfs" class="gallery-item">
+        
+        <!-- Image Section -->
+        <div class="image-container">
+          <img mat-card-image [src]="turf.image" alt="{{ turf.name }}">
+          
+          <!-- Price Tag -->
+          <div class="price-tag">
+            {{ turf.price }}
+          </div>
+        </div>
+  
+        <!-- Turf Details -->
+        <mat-card-content class="card-content">
+          <h3>{{ turf.name }}</h3>
+          <p>{{ turf.description }}</p>
+        </mat-card-content>
+  
+        <!-- Book Now Button -->
+        <mat-card-actions class="p-4 flex justify-center">
+          <button mat-button class="book-button">
+            Book Now
+          </button>
+        </mat-card-actions>
+  
+      </mat-card>
+    </div>
+  </div>
+  

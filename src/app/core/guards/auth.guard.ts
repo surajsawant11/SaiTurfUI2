@@ -3,50 +3,48 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
+// ✅ General Auth Guard (Only for Protected Routes)
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
-    if (state.url === '/login' || state.url === '/register') {
-      router.navigate(['/']);
-      return false;
-    }
-    return true;
+  if (!authService.isAuthenticated()) {
+    router.navigate(['/login']); // Redirect if not authenticated
+    return false;
   }
 
-  router.navigate(['/login']);
-  return false;
+  return true; // ✅ Allow if authenticated
 };
 
+// ✅ Role-Based Guard (Supports ADMIN & USER)
+export const roleGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isAuthenticated()) {
+    router.navigate(['/login']);
+    return false;
+  }
+
+  const userRole = authService.getUserFromStorage()?.role;
+  const requiredRole = route.data?.['role'];
+
+  if (userRole !== requiredRole) {
+    router.navigate(['/unauthorized']); // Redirect unauthorized users
+    return false;
+  }
+
+  return true; // ✅ Allow access if role matches
+};
+
+// ✅ NoAuth Guard (Prevents Auth Users from Accessing Login/Register)
 export const noAuthGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   if (authService.isAuthenticated()) {
-    router.navigate(['/']);
+    router.navigate(['/']); // Redirect to home if authenticated
     return false;
   }
-  return true;
-};
-
-export const adminGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const router = inject(Router);
-
-  const isAuthenticated = authService.isAuthenticated(); // Check if the user is authenticated
-
-  if (!isAuthenticated) {
-    router.navigate(['/login']); // Redirect to login if not authenticated
-    return false;
-  }
-
-  const isAdmin = authService.getUserFromStorage()?.role === 'ADMIN'; // Check if the user is an admin
-
-  if (!isAdmin) {
-    router.navigate(['/unauthorized']); // Redirect to unauthorized if not an admin
-    return false;
-  }
-
-  return true; // The user is authenticated and an admin
+  return true; // ✅ Allow if not authenticated
 };
