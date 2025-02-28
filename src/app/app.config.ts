@@ -11,12 +11,14 @@ import { AuthEffects } from './store/effects/auth/auth.effects';
 import { provideToastr } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { turfCollectionReducer } from './features/dashboard/turf-collections/store/turf-collections.reducer';
+import { TurfCollectionEffects } from './features/dashboard/turf-collections/store/turf-collections.effects';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideStore({ auth: authReducer }),
-    provideEffects([AuthEffects]),
+    provideStore({ auth: authReducer, turf: turfCollectionReducer}),
+    provideEffects([AuthEffects, TurfCollectionEffects]),
     provideHttpClient(
       withInterceptors([tokenInterceptor]),
       withInterceptorsFromDi(),

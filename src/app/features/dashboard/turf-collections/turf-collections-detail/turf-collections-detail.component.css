@@ -1,0 +1,283 @@
+/* 🔹 Main Container */
+.detail-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔹 Heading */
+.heading-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #4CAF50;
+  padding-bottom: 8px;
+}
+
+.detail-heading {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2E7D32;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex-grow: 1;
+}
+
+/* 🔹 Buttons */
+.button-group {
+  display: flex;
+  gap: 12px;
+}
+
+.book-now-btn, .close-details-button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+}
+
+.book-now-btn {
+  background: #4CAF50;
+  color: white;
+}
+
+.book-now-btn:hover {
+  background: #388E3C;
+}
+
+.close-details-button {
+  background: #f44336;
+  color: white;
+}
+
+.close-details-button:hover {
+  background: #d32f2f;
+}
+
+/* 🔹 Content Layout */
+.content-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* 🔹 Turf Info */
+.turf-info {
+  width: 50%;
+  text-align: center;
+}
+
+.image-container {
+  border-top: 5px solid #4CAF50;
+  padding-top: 10px;
+  margin-bottom: 15px;
+}
+
+.image-container img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Booking Form */
+.booking-form {
+  width: 50%;
+  background: #f9f9f9;
+  padding: 24px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.booking-form h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+/* 🔹 Form Inputs */
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+/* 🔹 Datepicker */
+.mat-datepicker-input {
+  margin-bottom: 20px;
+}
+
+/* 🔹 Unavailable Dates Bar */
+.unavailable-dates-bar {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  gap: 12px;
+}
+
+/* 🔹 Booked Date Styling */
+.booked-date {
+  background: #4CAF50;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: bold;
+  display: inline-block;
+  text-align: center;
+  min-width: 120px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.booked-date:hover {
+  transform: scale(1.1);
+  transition: 0.3s ease-in-out;
+  background: #218838;
+}
+
+/* 📱 Responsive Styles */
+@media (max-width: 768px) {
+  .heading-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .button-group {
+    margin-top: 10px;
+  }
+
+  .content-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .turf-info,
+  .booking-form {
+    width: 100%;
+  }
+
+  .image-container img {
+    max-width: 100%;
+  }
+
+  /* ✅ Make the Datepicker input size consistent */
+  mat-form-field {
+    width: 100%;
+    font-size: 16px; /* Match other input fields */
+  }
+
+  mat-form-field input {
+    padding: 10px;
+    height: 40px; /* Set a fixed height */
+    font-size: 16px; /* Ensure text size matches */
+    border-radius: 8px;
+    border: 1px solid #ccc; /* Match other inputs */
+  }
+
+  /* ✅ Ensure Datepicker icon is aligned properly */
+  .mat-datepicker-toggle {
+    color: #1976d2;
+    height: 40px; /* Same as input field */
+    display: flex;
+    align-items: center;
+  }
+
+  /* ✅ Keep the calendar popup consistent */
+  .mat-datepicker-content {
+    background-color: white;
+    border-radius: 12px;
+  }
+
+  /* ✅ Improve selected date appearance */
+  .mat-calendar-body-selected {
+    background-color: #4CAF50 !important;
+    color: white !important;
+    border-radius: 8px !important; /* Ensuring selected date is rectangular */
+  }
+
+  /* ✅ Improve disabled dates appearance */
+  .mat-calendar-body-disabled {
+    color: gray !important;
+    text-decoration: line-through;
+  }
+
+  /* ✅ Keep consistency in buttons */
+  .mat-calendar-arrow {
+    color: black !important;
+  }
+
+  .mat-datepicker-content .mat-calendar-next-button,
+  .mat-datepicker-content .mat-calendar-previous-button {
+    color: black !important;
+  }
+
+  /* Ensure proper alignment of date labels and adjust styling of unavailable dates */
+  .booked-date-rectangle {
+    background-color: #4caf50;
+    color: white;
+    width: 80px;  /* Set rectangle width */
+    height: 40px;  /* Set rectangle height */
+    line-height: 40px;  /* Ensure text is centered */
+    font-size: 14px;  /* Adjust font size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border-radius: 8px;  /* Rounded corners */
+  }
+  .unavailable-dates-bar {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+  }
+  
+  .dates-bar {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 5px 0;
+  }
+  
+  .booked-date-rectangle {
+    background: #ff4d4d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .total-price {
+    color: green !important;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  
+  
+}

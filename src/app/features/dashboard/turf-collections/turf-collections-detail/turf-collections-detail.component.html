@@ -1,0 +1,65 @@
+<div class="detail-container">
+  <!-- Header with Buttons -->
+  <div class="heading-container">
+    <h2 class="detail-heading">{{ turf?.name }}</h2>
+    <div class="button-group">
+      <button mat-button class="book-now-btn" (click)="bookNow()" [disabled]="isDateBooked(bookingData.date)">
+        Book Now
+      </button>
+      <button mat-button class="close-details-button" (click)="closeDetails()">Close</button>
+    </div>
+  </div>
+
+  <!-- Unavailable Dates Bar -->
+  <div *ngIf="bookedDates.length > 0" class="unavailable-dates-bar">
+    <p><strong>Unavailable Dates:</strong></p>
+    <span *ngFor="let date of bookedDates" class="booked-date">{{ getFormattedDate(date) }}</span>
+  </div>
+
+  <!-- Turf Info & Booking Form -->
+  <div class="content-container">
+    <!-- Turf Info (Left) -->
+    <div class="turf-info">
+      <div class="image-container">
+        <img [src]="turf?.imageUrl" alt="{{ turf?.name }}">
+      </div>
+      <p><strong>Location:</strong> {{ turf?.location }}</p>
+      <p><strong>Price per Hour:</strong> ₹{{ turf?.pricePerHour }}</p>
+    </div>
+
+    <!-- Booking Form (Right) -->
+    <div class="booking-form">
+      <h3>Book This Turf</h3>
+
+      <div class="form-group">
+        <label>Date:</label>
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" [(ngModel)]="bookingData.date" (change)="validateBooking()" [min]="minDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <p *ngIf="isDateBooked(bookingData.date)" class="error-text">❌ This date is already booked.</p>
+        <p *ngIf="!isDateBooked(bookingData.date) && bookingData.date" class="success-text">✅ This date is available!</p>
+      </div>
+      
+      
+
+      <div class="form-group">
+        <label>Start Time:</label>
+        <input type="time" [(ngModel)]="bookingData.startTime" (change)="calculateTotalPrice()">
+      </div>
+      
+      <div class="form-group">
+        <label>End Time:</label>
+        <input type="time" [(ngModel)]="bookingData.endTime" (change)="calculateTotalPrice()">
+      </div>
+      <p *ngIf="totalPrice > 0" class="total-price">
+        <strong>Total Price:</strong> ₹{{ totalPrice }}
+      </p>      
+<p *ngIf="totalPrice === 0 && bookingData.startTime && bookingData.endTime" class="error-text">❌ Invalid time selection</p>
+      <button mat-button class="book-now-btn" (click)="bookNow()" [disabled]="isDateBooked(bookingData.date)">
+        Book Now
+      </button>
+    </div>
+  </div>
+</div>
