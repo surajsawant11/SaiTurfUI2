@@ -53,9 +53,10 @@
         <label>End Time:</label>
         <input type="time" [(ngModel)]="bookingData.endTime" (change)="calculateTotalPrice()">
       </div>
-      <p *ngIf="totalPrice > 0" class="total-price">
+      <p *ngIf="totalPrice > 0" style="color: rgb(179, 27, 27); font-weight: bold; font-size: 1.2rem;">
         <strong>Total Price:</strong> ₹{{ totalPrice }}
-      </p>      
+      </p>
+         
 <p *ngIf="totalPrice === 0 && bookingData.startTime && bookingData.endTime" class="error-text">❌ Invalid time selection</p>
       <button mat-button class="book-now-btn" (click)="bookNow()" [disabled]="isDateBooked(bookingData.date)">
         Book Now
