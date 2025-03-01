@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as TurfCollectionActions from './turf-collections.actions';
+import { Booking } from '../turf-collections-detail/turf-collections-detail.component';
 
 export interface TurfCollectionState {
   turfs: any[];   // ✅ Changed 'turf' to 'turfs' for clarity
@@ -8,6 +9,7 @@ export interface TurfCollectionState {
   saveSuccess: boolean;  
   deleteSuccess: boolean;
   bookedDates: string[];
+  bookings: Booking[];
 }
 
 export const initialState: TurfCollectionState = {
@@ -16,7 +18,8 @@ export const initialState: TurfCollectionState = {
   error: null,
   saveSuccess: false,  
   deleteSuccess: false, 
-  bookedDates: []
+  bookedDates: [],
+  bookings: []
 };
 
 export const turfCollectionReducer = createReducer(
@@ -57,6 +60,12 @@ export const turfCollectionReducer = createReducer(
     ...state,
     loading: false,
     error
-  }))
+  })),
+  
+    on(TurfCollectionActions.createBookingSuccess, (state, { booking }) => ({
+      ...state,
+      bookings: [...state.bookings, booking]
+    })),
+    on(TurfCollectionActions.createBookingFailure, (state, { error }) => ({ ...state, error }))
  
 );

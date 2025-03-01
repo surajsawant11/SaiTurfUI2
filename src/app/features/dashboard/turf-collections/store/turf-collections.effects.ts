@@ -46,6 +46,23 @@ export class TurfCollectionEffects {
       )
     );
   });
+
+  createBooking$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TurfActions.createBooking),
+      mergeMap(({ booking }) => {
+        console.log("Inside Effect Before API Call:", booking.bookingDate);
+        return this._turfCollectionService.createBooking(booking).pipe(
+          mergeMap((newBooking) => [
+            TurfActions.createBookingSuccess({ booking: newBooking }),
+            TurfActions.loadBookedDates({ turfId: newBooking.turfId }) 
+          ]),
+          catchError((error) => of(TurfActions.createBookingFailure({ error: error.message })))
+        );
+      })
+      
+    )
+  );
   
  
 

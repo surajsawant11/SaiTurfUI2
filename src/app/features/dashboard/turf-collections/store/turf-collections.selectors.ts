@@ -23,4 +23,15 @@ export const selectBookedDates = createSelector(
   (state: TurfCollectionState) => state.bookedDates
 );
 
+// import { createSelector, createFeatureSelector } from '@ngrx/store';
+// import { BookingState } from './booking.reducer';
+
+// Get the feature state
+export const selectBookingState = createFeatureSelector<TurfCollectionState>('booking');
+
+// Get the bookings list from the state
+export const selectAllBookings = createSelector(selectBookingState, (state) => state.bookings);
+
+// Get any error messages
+export const selectBookingError = createSelector(selectBookingState, (state) => state.error);
 

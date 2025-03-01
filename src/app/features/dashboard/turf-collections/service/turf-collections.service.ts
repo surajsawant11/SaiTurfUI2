@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../../../environment/environment';
 import { Store } from '@ngrx/store';
+import { Booking } from '../turf-collections-detail/turf-collections-detail.component';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,9 @@ export class TurfCollectionService {
         );
     }
     
+    createBooking(booking: Booking): Observable<Booking> {
+        return this.http.post<Booking>(`${this.apiUrl}/bookings`, booking);
+      }
     
 
 }
