@@ -5,6 +5,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { Observable } from 'rxjs';
 import { loadHome } from './store/home.actions';
 import { selectHomeData } from './store/home.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements AfterViewInit {
   posts$: Observable<any[]>; // Observable to hold posts
   @ViewChild('scrollContainer') scrollContainer!: ElementRef;
 
-  constructor(private store: Store, private el: ElementRef, private renderer: Renderer2) {
+  constructor(private store: Store, private el: ElementRef, private renderer: Renderer2,private router: Router) {
     this.posts$ = this.store.select(selectHomeData); // Select posts from the store
   }
 
@@ -116,5 +117,8 @@ export class HomeComponent implements AfterViewInit {
   
   scrollRight() {
     this.scrollContainer.nativeElement.scrollBy({ left: 300, behavior: 'smooth' });
+  }
+  viewAll(){
+    this.router.navigate(['turf-collections']);
   }
 }
