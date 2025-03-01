@@ -1,55 +1,54 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { loadTurfCollections } from './store/turf-collections.actions';
 import { selectTurfs } from './store/turf-collections.selectors';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { environment } from '../../../../environment/environment';
-import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import {  TurfCollectionsDetailComponent } from './turf-collections-detail/turf-collections-detail.component';
+import { TurfCollectionsDetailComponent } from './turf-collections-detail/turf-collections-detail.component';
 
 @Component({
   selector: 'app-turf-collections',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule, CommonModule, FormsModule,TurfCollectionsDetailComponent],
+  imports: [
+    CommonModule, MatCardModule, MatButtonModule, MatPaginatorModule,
+    FormsModule, TurfCollectionsDetailComponent
+  ],
   templateUrl: './turf-collections.component.html',
   styleUrl: './turf-collections.component.css'
 })
-export class TurfCollectionsComponent implements OnInit, AfterViewInit {
+export class TurfCollectionsComponent implements OnInit {
   turfs$: Observable<any[]>;
-  dataSource = new MatTableDataSource<any>(); 
-  bookingData = { date: '', startTime: '', endTime: '', userId: 'USER_ID_HERE' };
+  dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-
-  // Hold the turf selected for detail view
   selectedTurf: any = null;
+  bookingData = { date: '', startTime: '', endTime: '', userId: 'USER_ID_HERE' };
 
-  constructor(private store: Store,  private http: HttpClient) {
+  constructor(private store: Store, private http: HttpClient, private cdr: ChangeDetectorRef) {
     this.turfs$ = this.store.select(selectTurfs);
   }
 
   ngOnInit() {
-    console.log('Dispatching loadTurfCollections action...');
-    this.store.dispatch(loadTurfCollections());
-
-    this.turfs$.subscribe((turfs) => {
-      this.dataSource.data = turfs.map(turf => ({
-        ...turf,
-        // Optionally, format the image URL if needed:
-        imageUrl: turf.imageUrl // or: `${environment.apiUrl}${turf.imageUrl}`
-      }));
-      console.log('Updated turfs with image URL:', this.dataSource.data);
-    });
+    this.fetchTurfData();
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  fetchTurfData() {
+    this.store.dispatch(loadTurfCollections());
+
+    // Subscribe to store data and update dataSource
+    this.turfs$.subscribe((turfs) => {
+      this.dataSource.data = turfs;
+      if (this.paginator) {
+        this.dataSource.paginator = this.paginator; // ✅ Connect paginator
+      }
+      this.cdr.detectChanges(); // ✅ Force UI refresh
+    });
   }
 
   viewDetails(turf: any) {
@@ -58,42 +57,6 @@ export class TurfCollectionsComponent implements OnInit, AfterViewInit {
 
   closeDetails() {
     this.selectedTurf = null;
-  }
-
-   // Book Now Function
-   bookNow() {
-    if (!this.bookingData.date || !this.bookingData.startTime || !this.bookingData.endTime) {
-      alert("Please select a valid date and time.");
-      return;
-    }
-
-    const bookingPayload = {
-      user_id: this.bookingData.userId,
-      turf_id: this.selectedTurf.id,
-      bookingDate: this.bookingData.date,
-      startTime: this.bookingData.startTime,
-      endTime: this.bookingData.endTime,
-      totalPrice: this.calculatePrice(),
-      status: 'CONFIRMED'
-    };
-
-    this.http.post(`${environment.apiUrl}/bookings`, bookingPayload).subscribe(
-      response => {
-        alert("Booking successful!");
-        this.closeDetails();
-      },
-      error => {
-        console.error("Booking failed:", error);
-        alert("Booking failed. Try again!");
-      }
-    );
-  }
-
-  // Calculate total price
-  calculatePrice(): number {
-    const start = new Date(`1970-01-01T${this.bookingData.startTime}:00`);
-    const end = new Date(`1970-01-01T${this.bookingData.endTime}:00`);
-    const hours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
-    return hours * this.selectedTurf.pricePerHour;
+    this.fetchTurfData();
   }
 }

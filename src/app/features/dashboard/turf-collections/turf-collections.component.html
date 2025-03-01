@@ -1,32 +1,32 @@
 <div class="main-content flex flex-col items-center p-6">
-    <ng-container *ngIf="!selectedTurf; else detailView">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        <mat-card *ngFor="let turf of dataSource.connect() | async" class="gallery-item">
-          <div class="image-container">
-            <img mat-card-image [src]="turf.imageUrl" alt="{{ turf.name }}" class="rounded-t-lg object-cover h-52 w-full"> 
-            <div class="price-tag">₹{{ turf.pricePerHour }} / hour</div>
-          </div>
-          <mat-card-content class="card-content">
-            <h3 class="text-lg font-semibold text-gray-800">{{ turf.name }}</h3>
-            <p class="text-gray-600">{{ turf.location }}</p>
-          </mat-card-content>
-          <mat-card-actions class="p-4 flex justify-center">
-            <button mat-button class="view-details-button" (click)="viewDetails(turf)">View Details</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
+  <ng-container *ngIf="!selectedTurf; else detailView">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <mat-card *ngFor="let turf of dataSource.connect() | async" class="gallery-item">
+        <div class="image-container">
+          <img mat-card-image [src]="turf.imageUrl" alt="{{ turf.name }}" class="rounded-t-lg object-cover h-52 w-full">
+          <div class="price-tag">₹{{ turf.pricePerHour }} / hour</div>
+        </div>
+        <mat-card-content class="card-content">
+          <h3 class="text-lg font-semibold text-gray-800">{{ turf.name }}</h3>
+          <p class="text-gray-600">{{ turf.location }}</p>
+        </mat-card-content>
+        <mat-card-actions class="p-4 flex justify-center">
+          <button mat-button class="view-details-button" (click)="viewDetails(turf)">View Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
 
-      <!-- Pagination -->
-      <div class="pagination-container mt-4">
-        <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
-      </div>
-    </ng-container>
+    <!-- Pagination -->
+    <div class="pagination-container mt-4">
+      <mat-paginator [pageSize]="6" [pageSizeOptions]="[6, 12, 18]" showFirstLastButtons></mat-paginator>
+    </div>
+  </ng-container>
 
-    <!-- Turf Detail View -->
-    <ng-template #detailView>
-      <app-turf-collections-detail
-      [turf]="selectedTurf" 
+  <!-- Turf Detail View -->
+  <ng-template #detailView>
+    <app-turf-collections-detail
+      [turf]="selectedTurf"
       (close)="closeDetails()">
-      </app-turf-collections-detail>
-    </ng-template>
-  </div>
+    </app-turf-collections-detail>
+  </ng-template>
+</div>
