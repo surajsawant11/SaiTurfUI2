@@ -1,0 +1,99 @@
+<div class="contact-page bg-gray-50 py-12 mt-5">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+
+        <!-- Add Turf Button (Visible only if turfs exist) -->
+        <div class="flex justify-end mb-4" *ngIf="dataSource.data.length > 0">
+            <button class="bg-green-500 text-white font-medium py-2 px-4 rounded shadow hover:bg-green-600 transition"
+                (click)="openAddTurfDialog()">
+                + Add New Turf
+            </button>
+        </div>
+
+        <!-- Responsive Table Wrapper -->
+        <div class="table-responsive" *ngIf="dataSource.data.length > 0; else noDataTemplate">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn> {{turf.name}} </td>
+                </ng-container>
+
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Location </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn> {{turf.location}} </td>
+                </ng-container>
+
+                <!-- Price Per Hour Column -->
+                <ng-container matColumnDef="pricePerHour">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Per Hour </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn> ₹{{turf.pricePerHour}} </td>
+                </ng-container>
+
+                <!-- Capacity Column -->
+                <ng-container matColumnDef="capacity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Capacity </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn> {{turf.capacity}} </td>
+                </ng-container>
+
+                <!-- Image Column -->
+                <ng-container matColumnDef="imageUrl">
+                    <th mat-header-cell *matHeaderCellDef> Image </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn>
+                        <img [src]="turf.imageUrl" alt="Turf Image" class="turf-img">
+                    </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let turf" @fadeIn class="action-buttons">
+                        <button mat-icon-button color="primary" (click)="onEdit(turf)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="onDelete(turf)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <!-- Table Rows -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" @fadeIn></tr>
+            </table>
+
+        </div>
+
+        <!-- No Data Template -->
+        <ng-template #noDataTemplate>
+            <div class="text-center py-12 flex flex-col items-center">
+                <!-- No Data SVG -->
+                <svg width="180px" height="180px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#E5E7EB" d="M8 2h6.586c.53 0 1.04.211 1.414.586l3.414 3.414c.375.374.586.884.586 1.414V20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"/>
+                    <path fill="#9CA3AF" d="M14 2v3a2 2 0 0 0 2 2h3"/>
+                    <circle cx="10" cy="10" r="3" stroke="#374151" stroke-width="1.5"/>
+                    <path stroke="#374151" stroke-width="1.5" d="M14 14.5 12.5 13"/>
+                </svg>
+        
+                <!-- No Data Message -->
+                <p class="text-lg font-semibold text-gray-700 mt-4">No turfs available at the moment.</p>
+                <p class="text-gray-500 mb-6">Click on <strong>"Add New Turf"</strong> to add a new turf.</p>
+        
+                <!-- Centered Add Turf Button -->
+                <button 
+                    class="bg-green-500 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 hover:bg-green-600 flex items-center justify-center gap-2"
+                    (click)="openAddTurfDialog()">
+                    <mat-icon>add_circle</mat-icon>
+                    <span>Add New Turf</span>
+                </button>
+            </div>
+        </ng-template>
+        
+
+        <!-- Paginator -->
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+            *ngIf="dataSource.data.length > 0"></mat-paginator>
+
+    </div>
+</div>

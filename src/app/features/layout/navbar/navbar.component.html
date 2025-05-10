@@ -1,85 +1,111 @@
-<nav class="bg-gray-800">
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
-        <button type="button"
-          class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset"
-          aria-controls="mobile-menu" aria-expanded="false">
-          <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">Open main menu</span>
+<header class="absolute inset-x-0 top-0 z-50">
+  <nav class="bg-white shadow-sm"> <!-- White background with a subtle shadow -->
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
 
-          <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-
-          <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center">
-          <img class="h-8 w-auto cursor-pointer" src="../../../../assets/images/icon.png"
-            alt="Your Company" (click)="navigateToHome()">
-        </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
-            <a class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-              routerLink="/" routerLinkActive="bg-gray-700 !text-white"
-              [routerLinkActiveOptions]="{exact: true}">Home</a>
-
-            <a class="rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-              routerLink="/about" routerLinkActive="bg-gray-700 !text-white">About</a>
-
-            <a class="rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-              routerLink="/contact" routerLinkActive="bg-gray-700 !text-white">Contact</a>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <div class="relative ml-3" (mouseenter)="onHover(true)" (mouseleave)="onHover(false)">
-          <div>
-            <button type="button"
-              class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-              id="user-menu-button">
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">Open user menu</span>
-              <img class="size-8 rounded-full" src="../../../../assets/images/user.png" alt="">
-            </button>
-          </div>
-
-          @if(dropdownOpen){
-          <div
-            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-hidden"
-            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" id="dropdown-menu">
-            <div class="py-1 m-1" role="none">
-              <a class="block px-4 py-2 text-sm !text-gray-700 !no-underline hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
-                role="menuitem" tabindex="-1">Settings</a>
-              <a class="block px-4 py-2 text-sm !text-gray-700 !no-underline hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
-                role="menuitem" tabindex="-1" (click)="logout()">Log Out</a>
-            </div>
-          </div>
-
+        <!-- Mobile menu button, hides when menu is open -->
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          @if(!isMenuOpen){
+          <button type="button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-500 focus:outline-none focus:ring-inset"
+            aria-controls="mobile-menu" aria-expanded="false" (click)="toggleMenu()">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+          }
+          @if(isMenuOpen){
+          <button type="button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:ring-2 focus:ring-gray-500 focus:outline-none focus:ring-inset"
+            aria-controls="mobile-menu" aria-expanded="true" (click)="toggleMenu()">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Close main menu</span>
+            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
           }
         </div>
+
+        <!-- Logo Section -->
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex shrink-0 items-center">
+            <img class="h-8 w-auto cursor-pointer" src="../../../../assets/images/icon.png" alt="Your Company"
+              (click)="navigateToHome()">
+          </div>
+
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+                routerLink="/" routerLinkActive="bg-gray-100 !text-gray-900"
+                [routerLinkActiveOptions]="{exact: true}">Home</a>
+              <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+                routerLink="/about" routerLinkActive="bg-gray-100 !text-gray-900">About</a>
+              <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+                routerLink="/contact" routerLinkActive="bg-gray-100 !text-gray-900">Contact</a>
+              <a *hasRole="['ADMIN']"
+                class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+                routerLink="/turf" routerLinkActive="bg-gray-100 !text-gray-900">Turf</a>
+              <a class="rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+                routerLink="/book" routerLinkActive="bg-gray-100 !text-gray-900">Book</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User menu section pushed to the right -->
+        <div class="flex items-center ml-auto">
+          <!-- User menu dropdown -->
+          <div class="relative ml-3" (mouseenter)="dropdownOpen = true" (mouseleave)="dropdownOpen = false">
+            <div>
+              <button type="button"
+                class="relative flex rounded-full bg-transparent text-sm focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-100 focus:outline-none"
+                id="user-menu-button" (click)="toggleDropdown()">
+                <span class="absolute -inset-1.5"></span>
+                <span class="sr-only">Open user menu</span>
+                <img class="size-8 rounded-full" src="../../../../assets/images/user.png" alt="">
+              </button>
+            </div>
+
+            <!-- Dropdown menu -->
+            @if(dropdownOpen){
+            <div
+              class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 focus:outline-none"
+              role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" id="dropdown-menu">
+              <div class="py-1 m-1" role="none">
+                <a class="block px-4 py-2 text-sm !text-gray-700 !no-underline hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                  role="menuitem" tabindex="-1">Settings</a>
+                <a class="block px-4 py-2 text-sm !text-gray-700 !no-underline hover:bg-gray-100 hover:text-gray-900 cursor-pointer"
+                  role="menuitem" tabindex="-1" (click)="logout()">Log Out</a>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
       </div>
-
-
     </div>
-  </div>
 
-  <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="sm:hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pt-2 pb-3">
-      <a class="block rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-        aria-current="page" routerLink="/">Home</a>
-      <a class="block rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-        routerLink="/about">About</a>
-      <a class="block rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white !no-underline"
-        routerLink="/contact">Contact</a>
+    <!-- Mobile menu, show/hide based on menu state -->
+    @if(isMenuOpen){
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pt-2 pb-3">
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/" routerLinkActive="bg-gray-100 !text-gray-900"
+          [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/about" routerLinkActive="bg-gray-100 !text-gray-900">About</a>
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/contact" routerLinkActive="bg-gray-100 !text-gray-900">Contact</a>
+        <a *hasRole="['ADMIN']"
+          class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/turf" routerLinkActive="bg-gray-100 !text-gray-900">Turf</a>
+        <a class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 !no-underline"
+          routerLink="/book" routerLinkActive="bg-gray-100 !text-gray-900">Book</a>
+      </div>
     </div>
-  </div>
-</nav>
+    }
+  </nav>
+</header>
